@@ -51,5 +51,5 @@ class ImageArtwork(Artwork):
 
 class SoundArtwork(Artwork):
 	length = models.IntegerField("Length (in seconds) : ", blank=True)
-	file = models.FileField(upload_to='video/')
+	file = models.FileField(upload_to='audio/')
 
