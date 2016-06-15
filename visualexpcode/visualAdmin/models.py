@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from itertools import chain
 
 # Create your models here.
+#ATTENTION: Le class order peut interférer avec le makemigrations
 
 class VisualUser(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -12,7 +13,6 @@ class VisualUser(models.Model):
 	def __str__(self):
 		return self.user.first_name + self.user.last_name
 
-#ATTENTION: Le class order peut interférer avec le makemigrations
 class Tag(models.Model):
 	tag_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=30)
