@@ -5,6 +5,7 @@
 *.egg-info
 *.pot
 *.py[co]
+*.pyc
 __pycache__
 MANIFEST
 dist/
@@ -14,9 +15,8 @@ node_modules/
 tests/coverage_html/
 tests/.coverage
 build/
+static/
 tests/report/
 docUrls
 .vscode/.browse.VC.db
-visualexpcode/visualexpcode/__pycache__/settings.cpython-34.pyc
-visualexpcode/visualexpcode/__pycache__/__init__.cpython-34.pyc
-visualexpcode/visualexpcode/__pycache__/urls.cpython-34.pyc
+visualexpcode/visualexpcode/__pycache__/
