@@ -26,6 +26,21 @@ class Artist(models.Model):
 		"""We have 3 different QuerySets that need to be merged into a single list """
 		return list(chain(self.videoartwork_set.all(),self.imageartwork_set.all(),self.soundartwork_set.all()))
 
+class Tags(models.Model):
+	tag_id = models.AutoField(primary_key=True)
+	name = models.CharField(max_length=30)
+	description = models.CharField(max_length=255, blank=True)
+
+	def __str__(self):
+		return self.name
+
+	def get_artworks(self):
+		return list(chain(self.videoartwork_set.all(),self.imageartwork_set.all(),self.soundartwork_set.all()))
+
+	def get_artists(self):
+		return list(chain(self.artist_set.all()))
+
+
 """Abstract Model for the artworks"""
 class Artwork(models.Model):
 	artwork_id = models.AutoField(primary_key=True)
@@ -33,6 +48,7 @@ class Artwork(models.Model):
 	description = models.CharField(max_length=255, blank=True)
 	publication_date = models.DateField(blank=True, null=True)
 	artists = models.ManyToManyField(Artist)
+	tags = models.ManyToManyField(Tags)
 	#TODO Dimensions, coordinates ?
 
 	def __str__(self):
@@ -52,4 +68,5 @@ class ImageArtwork(Artwork):
 class SoundArtwork(Artwork):
 	length = models.IntegerField("Length (in seconds) : ", blank=True)
 	file = models.FileField(upload_to='audio/')
+
 
