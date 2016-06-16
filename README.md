@@ -1,7 +1,7 @@
-# README VisualExp - Projet ISFAC
+# Projet ISFAC
 @authors [Cédric LEVEQUE](https://github.com/CDK-Github), [Mathieu Lemaire](https://github.com/mlemaire79), [Gaël Lebon](https://github.com/Frenchisman)
 
-## README VisualExp - Commandes utiles
+## Commandes utiles
 - workon visualexp
 - python manage.py <command>
   * migrate : Actualise l’état de la base de données en accord avec l’ensemble des modèles et des migrations actuels.
