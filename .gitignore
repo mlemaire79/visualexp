@@ -6,6 +6,8 @@
 *.pot
 *.py[co]
 *.pyc
+*.sublime-project
+*.sublime-workspace
 __pycache__
 MANIFEST
 dist/
