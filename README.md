@@ -1,5 +1,5 @@
 # README VisualExp - Projet ISFAC
-@authors Cédric LEVEQUE, Mathieu Lemaire, Gaël Lebon
+@authors [Cédric LEVEQUE](https://github.com/CDK-Github), [Mathieu Lemaire](https://github.com/mlemaire79), [Gaël Lebon](https://github.com/Frenchisman)
 
 ## README VisualExp - Commandes utiles
 - workon visualexp
