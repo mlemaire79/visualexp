@@ -41,7 +41,7 @@ class Artwork(models.Model):
         return self.title
 
 
-    def getType():
+    def getType(self):
         """Return the type of Artwork.
 
         Return Values : 
