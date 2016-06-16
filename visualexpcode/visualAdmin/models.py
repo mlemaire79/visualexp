@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from itertools import chain
 
 # Create your models here.
-#ATTENTION: Le class order peut interférer avec le makemigrations
+#ATTENTION: Le class order peut interferer avec le makemigrations
 
 class VisualUser(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
