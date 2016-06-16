@@ -20,3 +20,4 @@ build/
 static/
 tests/report/
 docUrls
+.vscode/.browse.VC.db
