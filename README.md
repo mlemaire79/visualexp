@@ -1,6 +1,8 @@
 # Projet ISFAC
 @authors [Cédric LEVEQUE](https://github.com/CDK-Github), [Mathieu Lemaire](https://github.com/mlemaire79), [Gaël Lebon](https://github.com/Frenchisman)
 
+@website www.visualexp.com
+
 ## Commandes utiles
 - workon visualexp
 - python manage.py \<command\>
