@@ -1,6 +1,6 @@
 from django.contrib import admin
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
-from .models import VisualUser, Tag, VideoArtwork, ImageArtwork, SoundArtwork, Artwork, Artist
+from .models import VisualUser, Tag, Artist, VideoArtwork, ImageArtwork, SoundArtwork, Artwork
 
 # Register your models here.
 
@@ -11,19 +11,18 @@ admin.site.register(VisualUser)
 admin.site.register(Tag)
 
 #ARTWORK
-class ChildAdminArtwork(PolymorphicChildModelAdmin):
+#@TODO Create interfaces for each child type adding custom fields.
+class ArtworkChildAdmin(PolymorphicChildModelAdmin):
+     base_model = Artwork
+
+class ArtworkParentModel(PolymorphicParentModelAdmin):
     base_model = Artwork
 
-class AdminVideoArtwork(ChildAdminArtwork):
-    base_model = VideoArtwork
-    show_in_index = False
+    def get_child_models(self):
+        return [(SoundArtwork,ArtworkChildAdmin), (VideoArtwork, ArtworkChildAdmin), (ImageArtwork, ArtworkChildAdmin)]
 
-class ParentAdminArtwork(PolymorphicParentModelAdmin):
-    base_model = Artwork
-    child_models = (VideoArtwork)
+admin.site.register(Artwork, ArtworkParentModel)
 
-admin.site.register(Artwork, ParentAdminArtwork)
-admin.site.register(VideoArtwork, AdminVideoArtwork)
 
 #ARTIST
 admin.site.register(Artist)
