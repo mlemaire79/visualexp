@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from itertools import chain
+from polymorphic.models import PolymorphicModel
 
 # Create your models here.
 #ATTENTION: Le class order peut interferer avec le makemigrations
@@ -29,7 +30,7 @@ class Tag(models.Model):
 
 
 """Abstract Model for the artworks"""
-class Artwork(models.Model):
+class Artwork(PolymorphicModel):
     artwork_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255) #Max supported by MySql text field
     description = models.CharField(max_length=255, blank=True)

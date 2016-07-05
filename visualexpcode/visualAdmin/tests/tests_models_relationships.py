@@ -46,12 +46,14 @@ class ManyToManyTagArtists(TestCase):
 
 	def test_getArtistListFromTag(self):
 		tag1 = Tag.objects.get(name="Contemporain")
+		artistList = tg1.artists.all()
 		#Ici la catégorie Contemporain devrait lister 2 artistes
-		self.assertEquals(len(tag1.get_artists()), 1)
+		self.assertEquals(len(artistList), 1)
 		
 		tag2 = Tag.objects.get(name="Baroque")
+		artistList = tg2.artists.all()
 		#Ici la catégorie Baroque devrait lister 1 artistes
-		self.assertEquals(len(tag2.get_artists()), 2)
+		self.assertEquals(len(artistList), 2)
 
 	def test_get_artist_details_from_list(self):
 		assert False, "Pas fait"
@@ -68,12 +70,14 @@ class ManyToManyTagArtworks(TestCase):
 	
 	def test_getArtworkListFromTag(self):
 		tag1 = Tag.objects.get(name="Abstrait")
+		artworkList = tg1.artworks.all()
 		#Ici la catégorie Abstrait devrait lister 2 oeuvres
-		self.assertEquals(len(tag1.get_artworks()), 1)
+		self.assertEquals(len(artworkList), 1)
 
 		tag2 = Tag.objects.get(name="Podcast")
+		artworkList = tg2;artworks.all()
 		#Ici la catégorie podcast devrait lister 1 oeuvres
-		self.assertEquals(len(tag2.get_artworks()), 2)
+		self.assertEquals(len(artworkList), 2)
 
 	def test_get_artwork_details_from_list(self):
 		assert False, "Pas fait"
