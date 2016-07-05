@@ -6,14 +6,6 @@ from polymorphic.models import PolymorphicModel
 # Create your models here.
 #ATTENTION: Le class order peut interferer avec le makemigrations
 
-class VisualUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_date = models.DateField(),
-    telephone = models.CharField(max_length=12)
-
-    def __str__(self):
-        return self.user.first_name + self.user.last_name
-
 class Tag(models.Model):
     tag_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
@@ -33,7 +25,7 @@ class Tag(models.Model):
 class Artwork(PolymorphicModel):
     artwork_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255) #Max supported by MySql text field
-    description = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
     publication_date = models.DateField(blank=True, null=True)
     tags = models.ManyToManyField(Tag)
     #@TODO Dimensions, coordinates ?
@@ -72,14 +64,14 @@ class Artwork(PolymorphicModel):
 
 class VideoArtwork(Artwork):
     #artwork = models.ForeignKey()
-    length = models.IntegerField("Length (in seconds) :", blank=True)
+    length = models.IntegerField("Length (in seconds)", blank=True)
     file = models.FileField(upload_to='video/')
 
 class ImageArtwork(Artwork):
     file = models.FileField(upload_to='image/')
 
 class SoundArtwork(Artwork):
-    length = models.IntegerField("Length (in seconds) : ", blank=True)
+    length = models.IntegerField("Length (in seconds)", blank=True)
     file = models.FileField(upload_to='audio/')
 
 class Artist(models.Model):
@@ -104,6 +96,7 @@ class Exposition(models.Model):
     end_date = models.DateField()
     artworks = models.ManyToManyField(Artwork, through='Display')
 
+
     def __str__(self):
         return self.title
 
@@ -116,8 +109,34 @@ class Display(models.Model):
     hasArrived = models.BooleanField(default=False)
 
     def __str__(self):
-        return ""
+        return self.exposition.__str__() + " - " + self.artwork.__str__()
 
-    def addView(self):
+    def add_view(self):
         self.nbViews = self.nbViews + 1
         self.save
+
+
+class Task(models.Model):
+    id_task = models.AutoField(primary_key=True)
+    exposition= models.ForeignKey(Exposition, on_delete=models.CASCADE)
+    start_date=models.DateTimeField()
+    end_date=models.DateTimeField()
+    name = models.CharField(max_length=64)
+    description = models.TextField(blank=True)
+
+    def __str__ (self):
+        return name
+
+    def get_users(self):
+        return self.user_set.all()
+
+class VisualUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    birth_date = models.DateField(),
+    telephone = models.CharField(max_length=12)
+    tasks = models.ManyToManyField(Task)
+
+    def __str__(self):
+        return self.user.first_name + self.user.last_name
+
+
