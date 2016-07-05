@@ -130,4 +130,5 @@ STATIC_ROOT = '/var/visualexp/static'
 # User Uploaded Content ( For artworks )
 # https://docs.djangoproject.com/en/1.9/ref/settings/#std:setting-MEDIA_ROOT
 # https://docs.djangoproject.com/en/1.9/ref/models/fields/#filefield
-MEDIA_ROOT = '/media/'
+MEDIA_ROOT = '/var/visualexp/media/'
+MEDIA_URL = '/media/'
