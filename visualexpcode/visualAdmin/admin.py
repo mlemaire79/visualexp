@@ -1,28 +1,29 @@
 from django.contrib import admin
+from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
+from .models import VisualUser, Tag, VideoArtwork, ImageArtwork, SoundArtwork, Artwork, Artist
 
 # Register your models here.
 
 #VIUALUSER
-from .models import VisualUser
 admin.site.register(VisualUser)
 
 #TAG
-from .models import Tag
 admin.site.register(Tag)
 
 #ARTWORK
-from .models import Artwork
-admin.site.register(Artwork)
+class ChildAdminArtwork(PolymorphicChildModelAdmin):
+    base_model = Artwork
 
-from .models import VideoArtwork
-admin.site.register(VideoArtwork)
+class AdminVideoArtwork(ChildAdminArtwork):
+    base_model = VideoArtwork
+    show_in_index = False
 
-from .models import ImageArtwork
-admin.site.register(ImageArtwork)
+class ParentAdminArtwork(PolymorphicParentModelAdmin):
+    base_model = Artwork
+    child_models = (VideoArtwork)
 
-from .models import SoundArtwork
-admin.site.register(SoundArtwork)
+admin.site.register(Artwork, ParentAdminArtwork)
+admin.site.register(VideoArtwork, AdminVideoArtwork)
 
 #ARTIST
-from .models import Artist
 admin.site.register(Artist)
