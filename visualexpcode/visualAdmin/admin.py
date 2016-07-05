@@ -11,10 +11,6 @@ admin.site.register(VisualUser)
 admin.site.register(Tag)
 
 #ARTWORK
-#@TODO Create interfaces for each child type adding custom fields.
-class ArtworkChildAdmin(PolymorphicChildModelAdmin):
-     base_model = Artwork
-
 class SoundArtworkAdmin(PolymorphicChildModelAdmin):
     base_model = Artwork
     base_fieldsets = (
