@@ -35,7 +35,7 @@ class Artwork(models.Model):
     description = models.CharField(max_length=255, blank=True)
     publication_date = models.DateField(blank=True, null=True)
     tags = models.ManyToManyField(Tag)
-    #TODO Dimensions, coordinates ?
+    #@TODO Dimensions, coordinates ?
 
     def __str__(self):
         return self.title
@@ -94,3 +94,29 @@ class Artist(models.Model):
         return self.stage_name
 
 
+class Exposition(models.Model):
+    expo_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=64)
+    description = models.TextField()
+    author = models.CharField(max_length=64, blank=True)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    artworks = models.ManyToManyField(Artwork, through='Display')
+
+    def __str__(self):
+        return self.title
+
+class Display(models.Model):
+    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    exposition = models.ForeignKey(Exposition, on_delete=models.CASCADE)
+    #@TODO add location of the artwork
+    nbViews = models.IntegerField(default=0)
+    deliveryTime = models.TimeField(blank=True,null=True)
+    hasArrived = models.BooleanField(default=False)
+
+    def __str__(self):
+        return ""
+
+    def addView(self):
+        self.nbViews = self.nbViews + 1
+        self.save
