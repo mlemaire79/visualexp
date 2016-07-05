@@ -4,6 +4,7 @@
 @website www.visualexp.com
 
 ## Commandes utiles
+- sudo apachectl restart
 - workon visualexp
 - python manage.py \<command\>
   * migrate : Actualise l’état de la base de données en accord avec l’ensemble des modèles et des migrations actuels.
