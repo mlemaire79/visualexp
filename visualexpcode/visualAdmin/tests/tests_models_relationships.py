@@ -53,7 +53,6 @@ class ManyToManyTagArtists(TestCase):
 		#Ici la catégorie Baroque devrait lister 1 artistes
 		self.assertEquals(len(tag2.get_artists()), 2)
 
-	#TODO
 	def test_get_artist_details_from_list(self):
 		assert False, "Pas fait"
 
@@ -76,6 +75,5 @@ class ManyToManyTagArtworks(TestCase):
 		#Ici la catégorie podcast devrait lister 1 oeuvres
 		self.assertEquals(len(tag2.get_artworks()), 2)
 
-	#TODO
 	def test_get_artwork_details_from_list(self):
 		assert False, "Pas fait"
