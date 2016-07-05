@@ -12,13 +12,19 @@ class ManyToManyArtistArtworks(TestCase):
         aw1 =VideoArtwork.objects.create(title="TitleAW1", description="DescriptionAW1", length=100)
         #Artwork2 has 2 artists
         aw2 = ImageArtwork.objects.create(title="TitleAW2", description="DescAW2")
-        aw1.artists.add(ar1)
-        aw2.artists.add(ar1)
-        aw2.artists.add(ar2)
+        ar1.artworks.add(aw1)
+        ar2.artworks.add(aw1)
+        ar1.artworks.add(aw2)
         
 
     def test_getArtworkListFromArtist(self):
-        self.fail("Not implemented")
+        artist1 = Artist.objects.get(first_name="TestFN1")
+        artworkList = artist1.artworks.all()
+        self.assertEqual(len(artworkList), 2)
+
+        artist2 = Artist.objects.get(first_name="TestFN2")
+        artworkList = artist2.artworks.all()
+        self.assertEqual(len(artworkList), 1, "Artist 2 only has 1 artwork")
 
 
     def test_get_artwork_details_from_list(self):
@@ -40,14 +46,15 @@ class ManyToManyTagArtists(TestCase):
 
 	def test_getArtistListFromTag(self):
 		tag1 = Tag.objects.get(name="Contemporain")
+		artistList = tg1.artists.all()
 		#Ici la catégorie Contemporain devrait lister 2 artistes
-		self.assertEquals(len(tag1.get_artists()), 1)
+		self.assertEquals(len(artistList), 1)
 		
 		tag2 = Tag.objects.get(name="Baroque")
+		artistList = tg2.artists.all()
 		#Ici la catégorie Baroque devrait lister 1 artistes
-		self.assertEquals(len(tag2.get_artists()), 2)
+		self.assertEquals(len(artistList), 2)
 
-	#TODO
 	def test_get_artist_details_from_list(self):
 		assert False, "Pas fait"
 
@@ -63,13 +70,14 @@ class ManyToManyTagArtworks(TestCase):
 	
 	def test_getArtworkListFromTag(self):
 		tag1 = Tag.objects.get(name="Abstrait")
+		artworkList = tg1.artworks.all()
 		#Ici la catégorie Abstrait devrait lister 2 oeuvres
-		self.assertEquals(len(tag1.get_artworks()), 1)
+		self.assertEquals(len(artworkList), 1)
 
 		tag2 = Tag.objects.get(name="Podcast")
+		artworkList = tg2;artworks.all()
 		#Ici la catégorie podcast devrait lister 1 oeuvres
-		self.assertEquals(len(tag2.get_artworks()), 2)
+		self.assertEquals(len(artworkList), 2)
 
-	#TODO
 	def test_get_artwork_details_from_list(self):
 		assert False, "Pas fait"
