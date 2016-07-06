@@ -31,14 +31,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #core django modules
     'django.contrib.admin',
     'django.contrib.auth',
-    'polymorphic',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'visualAdmin.apps.VisualadminConfig',
+    #External Dependencies
+    'polymorphic',
+    'pipeline',
+    'twitter_bootstrap',
+    'jquery',
+    #VisualexpModules
+    'visualAdmin',#.apps.VisualadminConfig',
+    'visualexpcode',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -128,9 +135,80 @@ LOCALE_PATHS = [
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+# Use pipeline to create and serve asset groups
+# http://django-pipeline.readthedocs.io/en/latest/index.html
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/visualexp/static'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
+)
+
+#Get bootstrap less files
+#For our less files
+#my_app_less = os.path.join(BASE_DIR, 'my_app', 'static', 'less')
+
+# For apps outside of your project, it's simpler to import them to find their root folders
+import twitter_bootstrap
+bootstrap_less = os.path.join(os.path.dirname(twitter_bootstrap.__file__), 'static', 'less')
+
+#PIPELINE_LESS_ARGUMENTS = u'--include-path={}'.format(os.pathsep.join([bootstrap_less, my_app_less]))
+
+
+PIPELINE = {
+# Compress assets, defaults to not settings.DEBUG 
+# enable for production 
+#   'PIPELINE_ENABLED': True,
+    'COMPILERS': {
+        'pipeline.compilers.less.LessCompiler',
+    },
+    'LESS_BINARY': {
+        '/usr/local/bin/lessc',
+    },
+    'LESS_ARGUMENTS': {
+        u'--include-path={}'.format(os.pathsep.join(bootstrap_less)),
+    },
+    'YUGLIFY_BINARY': {
+        '/usr/local/bin/yuglify',
+    },
+    'STYLESHEETS': {
+        'bootstrap': {
+            'source_filenames': (
+              'twitter_bootstrap/less/bootstrap.less',
+             ),
+            'output_filename': 'css/b.css',
+            'extra_context': {
+                'media': 'screen,projection',
+            },
+        },
+    },
+    'JAVASCRIPT': {
+        'bootstrap': {
+            'source_filenames': (
+              'js/jquery.js',
+              'twitter_bootstrap/js/transition.js',
+              'twitter_bootstrap/js/modal.js',
+              'twitter_bootstrap/js/dropdown.js',
+              'twitter_bootstrap/js/scrollspy.js',
+              'twitter_bootstrap/js/tab.js',
+              'twitter_bootstrap/js/tooltip.js',
+              'twitter_bootstrap/js/popover.js',
+              'twitter_bootstrap/js/alert.js',
+              'twitter_bootstrap/js/button.js',
+              'twitter_bootstrap/js/collapse.js',
+              'twitter_bootstrap/js/carousel.js',
+              'twitter_bootstrap/js/affix.js',
+            ),
+        'output_filename': 'js/b.js',
+        },
+    },
+}
+
+
+
 
 # User Uploaded Content ( For artworks )
 # https://docs.djangoproject.com/en/1.9/ref/settings/#std:setting-MEDIA_ROOT
