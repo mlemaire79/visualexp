@@ -12,4 +12,5 @@
   * runserver : Lancer le serveur par shell sans apache (permet un débogage au besoin)
 
 ## Applications requises
-- Polymorphic [Lien](http://django-polymorphic.readthedocs.io/en/latest/index.html)
+See requirements.txt 
+run with pip install -r requirements.txt
