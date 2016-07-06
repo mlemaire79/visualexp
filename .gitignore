@@ -18,6 +18,7 @@ tests/coverage_html/
 tests/.coverage
 build/
 static/
+media/
 tests/report/
 docUrls
 .vscode/.browse.VC.db
