@@ -1,5 +1,5 @@
 # Projet ISFAC
-@authors [Cédric LEVEQUE](https://github.com/CDK-Github), [Mathieu Lemaire](https://github.com/mlemaire79), [Gaël Lebon](https://github.com/Frenchisman)
+@authors [Cédric LEVEQUE](https://github.com/CDK-Github), [Mathieu LEMAIRE](https://github.com/mlemaire79), [Gaël LEBON](https://github.com/Frenchisman)
 
 @website www.visualexp.com
 

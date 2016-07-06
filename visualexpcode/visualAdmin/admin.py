@@ -11,6 +11,21 @@ admin.site.register(VisualUser)
 admin.site.register(Tag)
 
 #ARTWORK
+<<<<<<< HEAD
+#class ChildAdminArtwork(PolymorphicChildModelAdmin):
+    #base_model = Artwork
+
+#class AdminVideoArtwork(ChildAdminArtwork):
+    #base_model = VideoArtwork
+    #show_in_index = False
+
+#class ParentAdminArtwork(PolymorphicParentModelAdmin):
+    #base_model = Artwork
+    #child_models = (VideoArtwork)
+
+#admin.site.register(Artwork, ParentAdminArtwork)
+#admin.site.register(VideoArtwork, AdminVideoArtwork)
+=======
 class SoundArtworkAdmin(PolymorphicChildModelAdmin):
     base_model = Artwork
     base_fieldsets = (
@@ -62,6 +77,7 @@ class ArtworkParentModel(PolymorphicParentModelAdmin):
 
 admin.site.register(Artwork, ArtworkParentModel)
 
+>>>>>>> origin/master
 
 #ARTIST
 admin.site.register(Artist)
