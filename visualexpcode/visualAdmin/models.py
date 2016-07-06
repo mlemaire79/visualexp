@@ -2,14 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from itertools import chain
 from polymorphic.models import PolymorphicModel
+from django.utils.translation import ugettext as _
 
 # Create your models here.
 #ATTENTION: Le class order peut interferer avec le makemigrations
+# @TODO Ajouter les commentaires pour les traducteurs
 
 class Tag(models.Model):
     tag_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=30)
-    description = models.CharField(max_length=255, blank=True)
+    # Translators: Form label for Tag name Field
+    name = models.CharField(max_length=30, verbose_name=_("Libellé du tag"))
+    description = models.CharField(max_length=255, blank=True, verbose_name=_("Description du tag"))
 
     def __str__(self):
         return self.name
@@ -24,9 +27,9 @@ class Tag(models.Model):
 """Abstract Model for the artworks"""
 class Artwork(PolymorphicModel):
     artwork_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255) #Max supported by MySql text field
-    description = models.TextField(blank=True)
-    publication_date = models.DateField(blank=True, null=True)
+    title = models.CharField(max_length=255, verbose_name=_("Titre de l'oeuvre")) #Max supported by MySql text field
+    description = models.TextField(blank=True, verbose_name=_("Description de l'oeuvre"))
+    publication_date = models.DateField(blank=True, null=True, verbose_name=_("Date de publication"))
     tags = models.ManyToManyField(Tag)
     #@TODO Dimensions, coordinates ?
 
@@ -64,22 +67,22 @@ class Artwork(PolymorphicModel):
 
 class VideoArtwork(Artwork):
     #artwork = models.ForeignKey()
-    length = models.IntegerField("Length (in seconds)", blank=True)
-    file = models.FileField(upload_to='video/')
+    length = models.IntegerField(_("Durée (En secondes)"), blank=True)
+    file = models.FileField(upload_to='video/', verbose_name=_("Vidéo"))
 
 class ImageArtwork(Artwork):
-    file = models.FileField(upload_to='image/')
+    file = models.FileField(upload_to='image/', verbose_name=_("Image"))
 
 class SoundArtwork(Artwork):
-    length = models.IntegerField("Length (in seconds)", blank=True)
-    file = models.FileField(upload_to='audio/')
+    length = models.IntegerField(_("Durée (en secondes)"), blank=True)
+    file = models.FileField(upload_to='audio/', verbose_name=_("Son"))
 
 class Artist(models.Model):
     artist_id = models.AutoField(primary_key=True)
-    first_name = models.CharField(max_length=64)
-    last_name = models.CharField(max_length=64)
-    stage_name = models.CharField(max_length=128, blank=True)
-    birth_date = models.DateField(blank=True, null=True)
+    first_name = models.CharField(max_length=64, verbose_name=_("Prénom"))
+    last_name = models.CharField(max_length=64, verbose_name=_("Nom"))
+    stage_name = models.CharField(max_length=128, blank=True, verbose_name=_("Pseudonyme"))
+    birth_date = models.DateField(blank=True, null=True, verbose_name=_("Date de naissance"))
     artworks = models.ManyToManyField(Artwork)
     tags = models.ManyToManyField(Tag)
 
@@ -89,11 +92,11 @@ class Artist(models.Model):
 
 class Exposition(models.Model):
     expo_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=64)
-    description = models.TextField()
-    author = models.CharField(max_length=64, blank=True)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    title = models.CharField(max_length=64, verbose_name=_("Titre de l'exposition"))
+    description = models.TextField(verbose_name=_("Description"))
+    author = models.CharField(max_length=64, blank=True, verbose_name=_("Auteur de l'exposition"))
+    start_date = models.DateField(verbose_name=_("Début de l'exposition"))
+    end_date = models.DateField(verbose_name=_("Fin de l'exposition"))
     artworks = models.ManyToManyField(Artwork, through='Display')
 
 
@@ -104,9 +107,9 @@ class Display(models.Model):
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     exposition = models.ForeignKey(Exposition, on_delete=models.CASCADE)
     #@TODO add location of the artwork
-    nbViews = models.IntegerField(default=0)
-    deliveryTime = models.TimeField(blank=True,null=True)
-    hasArrived = models.BooleanField(default=False)
+    nbViews = models.IntegerField(default=0, verbose_name=_("Nombre de vues"))
+    deliveryTime = models.TimeField(blank=True,null=True, verbose_name=_("Date de livraison"))
+    hasArrived = models.BooleanField(default=False, verbose_name=_("Arrivée"))
 
     def __str__(self):
         return self.exposition.__str__() + " - " + self.artwork.__str__()
@@ -119,10 +122,10 @@ class Display(models.Model):
 class Task(models.Model):
     id_task = models.AutoField(primary_key=True)
     exposition= models.ForeignKey(Exposition, on_delete=models.CASCADE)
-    start_date=models.DateTimeField()
-    end_date=models.DateTimeField()
-    name = models.CharField(max_length=64)
-    description = models.TextField(blank=True)
+    start_date=models.DateTimeField(verbose_name=_("Début de la tâche"))
+    end_date=models.DateTimeField(verbose_name=_("Fin de la tâche"))
+    name = models.CharField(max_length=64, verbose_name=_("Nom de la tâche"))
+    description = models.TextField(blank=True, verbose_name=_("Description de la tâche"))
 
     def __str__ (self):
         return name
@@ -132,8 +135,8 @@ class Task(models.Model):
 
 class VisualUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_date = models.DateField(),
-    telephone = models.CharField(max_length=12)
+    birth_date = models.DateField(verbose_name=_("Date de naissance")),
+    telephone = models.CharField(max_length=12, verbose_name=_("Numéro de téléphone"))
     tasks = models.ManyToManyField(Task)
 
     def __str__(self):
