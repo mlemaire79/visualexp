@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from visualAdmin.views import ArtworkList
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^artwork/$', ArtworkList.as_view()),
 ]
