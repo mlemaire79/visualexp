@@ -11,19 +11,19 @@ admin.site.register(VisualUser)
 admin.site.register(Tag)
 
 #ARTWORK
-class ChildAdminArtwork(PolymorphicChildModelAdmin):
-    base_model = Artwork
+#class ChildAdminArtwork(PolymorphicChildModelAdmin):
+    #base_model = Artwork
 
-class AdminVideoArtwork(ChildAdminArtwork):
-    base_model = VideoArtwork
-    show_in_index = False
+#class AdminVideoArtwork(ChildAdminArtwork):
+    #base_model = VideoArtwork
+    #show_in_index = False
 
-class ParentAdminArtwork(PolymorphicParentModelAdmin):
-    base_model = Artwork
-    child_models = (VideoArtwork)
+#class ParentAdminArtwork(PolymorphicParentModelAdmin):
+    #base_model = Artwork
+    #child_models = (VideoArtwork)
 
-admin.site.register(Artwork, ParentAdminArtwork)
-admin.site.register(VideoArtwork, AdminVideoArtwork)
+#admin.site.register(Artwork, ParentAdminArtwork)
+#admin.site.register(VideoArtwork, AdminVideoArtwork)
 
 #ARTIST
 admin.site.register(Artist)
