@@ -20,11 +20,11 @@ msgstr ""
 #. Translators: Form label for Tag name Field
 #: visualAdmin/models.py:14
 msgid "Libellé du tag"
-msgstr ""
+msgstr "Tag Label"
 
 #: visualAdmin/models.py:15
 msgid "Description du tag"
-msgstr ""
+msgstr "Tag Description"
 
 #: visualAdmin/models.py:30
 msgid "Titre de l'oeuvre"

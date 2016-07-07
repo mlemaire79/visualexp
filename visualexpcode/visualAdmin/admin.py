@@ -1,6 +1,7 @@
 from django.contrib import admin
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from .models import VisualUser, Tag, Artist, VideoArtwork, ImageArtwork, SoundArtwork, Artwork, Display, Exposition, Task
+from parler.admin import TranslatableAdmin
 
 # Register your models here.
 
@@ -8,7 +9,10 @@ from .models import VisualUser, Tag, Artist, VideoArtwork, ImageArtwork, SoundAr
 admin.site.register(VisualUser)
 
 #TAG
-admin.site.register(Tag)
+class TranslatableTag(TranslatableAdmin):
+    pass
+
+admin.site.register(Tag, TranslatableTag)
 
 #ARTWORK
 class SoundArtworkAdmin(PolymorphicChildModelAdmin):
@@ -67,3 +71,5 @@ admin.site.register(Artist)
 admin.site.register(Exposition)
 admin.site.register(Display)
 admin.site.register(Task)
+
+#Translations 

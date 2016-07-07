@@ -2,17 +2,21 @@ from django.db import models
 from django.contrib.auth.models import User
 from itertools import chain
 from polymorphic.models import PolymorphicModel
+from parler.models import TranslatableModel, TranslatedFields
 from django.utils.translation import ugettext as _
 
 # Create your models here.
 #ATTENTION: Le class order peut interferer avec le makemigrations
 # @TODO Ajouter les commentaires pour les traducteurs
 
-class Tag(models.Model):
+class Tag(TranslatableModel):
     tag_id = models.AutoField(primary_key=True)
+
+    translations = TranslatedFields (
     # Translators: Form label for Tag name Field
-    name = models.CharField(max_length=30, verbose_name=_("Libellé du tag"))
+    name = models.CharField(max_length=30, verbose_name=_("Libellé du tag")),
     description = models.CharField(max_length=255, blank=True, verbose_name=_("Description du tag"))
+    )
 
     def __str__(self):
         return self.name
