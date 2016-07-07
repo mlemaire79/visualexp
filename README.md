@@ -10,6 +10,7 @@
   * migrate : Actualise l’état de la base de données en accord avec l’ensemble des modèles et des migrations actuels.
   * makemigrations : Crée de nouvelles migrations sur la base des modifications détectées dans les modèles.
   * runserver : Lancer le serveur par shell sans apache (permet un débogage au besoin)
+  * collectstatic : récupere les fichiers se trouvant dans /static dans chaque application installée.
 
 ## Applications requises
 See requirements.txt 

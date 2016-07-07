@@ -1,3 +1,8 @@
+<!-- TEMPLATE DOCUMENTATION
+  
+  Template Tags :
+  https://docs.djangoproject.com/en/1.9/ref/templates/builtins/
+-->
 <!DOCTYPE html>
 <html lang="en">
 {% load pipeline %}
@@ -22,7 +27,12 @@
         <h4 class="modal-title">H3110 WOr1d §</h4>
       </div>
       <div class="modal-body">
-        <p>Bootstrap in da house !</p>
+        <ul>
+          {% for artwork in artwork_list %}
+            <li>{{artwork}}</li>
+          {% endfor %}
+        </ul>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
