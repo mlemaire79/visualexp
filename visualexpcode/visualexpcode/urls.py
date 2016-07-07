@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from visualAdmin.views import ArtworkList
-from visualexpcode.views import Index
+from visualexpcode.views import Admin
 from visualexpcode.views import ArtworkTest
 
 urlpatterns = [
