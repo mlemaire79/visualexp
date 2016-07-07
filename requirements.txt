@@ -14,3 +14,7 @@ django-jquery>=1.12.2
 # https://github.com/jazzband/django-pipeline
 # https://django-pipeline.readthedocs.io/en/latest/
 django-pipeline>=1.6.8
+
+# https://github.com/django-parler/django-parler
+# http://django-parler.readthedocs.io/en/latest/index.html
+django-parler>=1.6.4

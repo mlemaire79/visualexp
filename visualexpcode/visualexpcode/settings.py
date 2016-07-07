@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'pipeline',
     'twitter_bootstrap',
     'jquery',
+    'parler',
     #VisualexpModules
     'visualAdmin',#.apps.VisualadminConfig',
     'visualexpcode',
@@ -117,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-US'
 
 TIME_ZONE = 'Europe/Paris'
 
@@ -126,6 +127,19 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# @TODO Add missing langs
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'fr',},
+        {'code': 'en',},
+        {'code': 'de',},
+    ),
+    'default': {
+        'fallbacks': ['fr'],          # defaults to PARLER_DEFAULT_LANGUAGE_CODE
+        'hide_untranslated': False,   # the default; let .active_translations() return fallbacks too.
+    }
+}
 
 
 LOCALE_PATHS = [
