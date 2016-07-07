@@ -1,0 +1,10 @@
+from django.shortcuts import render
+from django.template import loader
+from django.http import HttpResponse
+from django.views.generic import View
+
+class Index(View):
+
+    def get(self, request):
+        template = loader.get_template('admin/connect.html')
+        return HttpResponse(template.render(request))
