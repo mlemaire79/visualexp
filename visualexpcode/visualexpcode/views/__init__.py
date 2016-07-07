@@ -1,2 +1,2 @@
 from .artwork import ArtworkTest
-from .index import Index
+from .index import Admin
