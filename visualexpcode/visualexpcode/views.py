@@ -11,3 +11,7 @@ def bootstrap(request):
         'latest_question_list': latest_question_list,
     }
     return HttpResponse(template.render(context, request))
+
+def index(request):
+    template = loader.get_template('admin/connexion.html')
+    return HttpResponse(template.render(request))

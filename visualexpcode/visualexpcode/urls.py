@@ -21,5 +21,6 @@ from . import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^artwork/$', ArtworkList.as_view()),
-    url(r'^$', views.bootstrap, name='bootstrap')
+    url(r'^bootstrap/', views.bootstrap, name='bootstrap'),
+    url(r'^$', views.index, name="accueil")
 ]

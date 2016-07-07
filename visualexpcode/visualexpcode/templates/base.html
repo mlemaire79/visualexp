@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load pipeline %}
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}{% endblock %}</title>
+ 	{% stylesheet 'bootstrap' %}
+</head>
+<body>
+	<div class="container-fluid">
+		<header class="row">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#">Accueil</a>
+					</div>
+
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							{% include "includes/nav-menu.html" %}																				
+						</ul>
+					</div><!-- navbar-collapse -->
+
+				</div><!-- container-fluid -->
+			</nav>
+		</header>
+		<div class="row">
+			<div class="col-md-12">
+			</div>
+		</div>
+		<section class="row">
+			<div class="col-md-12">
+				{% block content %}{% endblock %}
+			</div>
+		</section>
+		<footer class="row">
+			<div class="col-md-12">
+				<!-- @TODO footer informations -->
+			</div>
+		</footer>
+	</div>
+
+	{% javascript 'jquery' %}
+	{% javascript 'bootstrap' %}
+	
+</body>
+</html>
