@@ -6,5 +6,5 @@ from django.views.generic import View
 class Index(View):
 
     def get(self, request):
-        template = loader.get_template('admin/connect.html')
+        template = loader.get_template('admin/connexion.html')
         return HttpResponse(template.render(request))
