@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from visualAdmin.views import ArtworkList
+from visualexpcode.views import Index
 from visualexpcode.views import ArtworkTest
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^artwork/$', ArtworkList.as_view()),
-    url(r'^$', ArtworkTest.as_view()),
+    url(r'^$', Admin.as_view()),
+    url(r'^bootstrap/$', ArtworkTest.as_view()),
 ]

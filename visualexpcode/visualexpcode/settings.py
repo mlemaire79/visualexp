@@ -178,6 +178,7 @@ PIPELINE = {
         'bootstrap': {
             'source_filenames': (
               'twitter_bootstrap/less/bootstrap.less',
+              'static/less/project-colors.less',
              ),
             'output_filename': 'css/b.css',
             'extra_context': {
