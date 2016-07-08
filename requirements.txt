@@ -1,20 +1,31 @@
+# Django
 # https://www.djangoproject.com/
 Django==1.9.6
 
+# Group Model Classes in admin
 # https://github.com/django-polymorphic/django-polymorphic
 # https://django-polymorphic.readthedocs.io/
 django-polymorphic>=0.9.2
 
+# Bootstrap
 # https://github.com/estebistec/django-twitter-bootstrap
 django-twitter-bootstrap>=3.3.0
 
+# jQuery
 # https://pypi.python.org/pypi/django-jquery
 django-jquery>=1.12.2
 
+# Asset management and grouping
 # https://github.com/jazzband/django-pipeline
 # https://django-pipeline.readthedocs.io/en/latest/
 django-pipeline>=1.6.8
 
+# Model Translation
 # https://github.com/django-parler/django-parler
 # http://django-parler.readthedocs.io/en/latest/index.html
 django-parler>=1.6.4
+
+# WYSIWYG Editor
+# https://github.com/aljosa/django-tinymce
+# http://django-tinymce.readthedocs.io/en/latest/
+django-tinymce >= 2.3.0
