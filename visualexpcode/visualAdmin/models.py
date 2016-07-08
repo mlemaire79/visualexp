@@ -3,7 +3,9 @@ from django.contrib.auth.models import User
 from itertools import chain
 from polymorphic.models import PolymorphicModel
 from parler.models import TranslatableModel, TranslatedFields
-from django.utils.translation import ugettext as _
+#from parler.managers import TranslatableManager
+from .managers import ArtworkManager
+from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 #ATTENTION: Le class order peut interferer avec le makemigrations
@@ -15,7 +17,7 @@ class Tag(TranslatableModel):
     translations = TranslatedFields (
     # Translators: Form label for Tag name Field
     name = models.CharField(max_length=30, verbose_name=_("Libellé du tag")),
-    description = models.CharField(max_length=255, blank=True, verbose_name=_("Description du tag"))
+    description = models.CharField(max_length=255, blank=True, verbose_name=_("Description du tag")),
     )
 
     def __str__(self):
@@ -29,10 +31,16 @@ class Tag(TranslatableModel):
 
 
 """Abstract Model for the artworks"""
-class Artwork(PolymorphicModel):
+class Artwork(PolymorphicModel, TranslatableModel):
+
+    objects = ArtworkManager()
+
     artwork_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255, verbose_name=_("Titre de l'oeuvre")) #Max supported by MySql text field
-    description = models.TextField(blank=True, verbose_name=_("Description de l'oeuvre"))
+
+    translations = TranslatedFields (
+        title = models.CharField(max_length=255, verbose_name=_("Titre de l'oeuvre")), #Max supported by MySql text field
+        description = models.TextField(blank=True, verbose_name=_("Description de l'oeuvre")),
+    )
     publication_date = models.DateField(blank=True, null=True, verbose_name=_("Date de publication"))
     tags = models.ManyToManyField(Tag)
     #@TODO Dimensions, coordinates ?
@@ -71,14 +79,14 @@ class Artwork(PolymorphicModel):
 
 class VideoArtwork(Artwork):
     #artwork = models.ForeignKey()
-    length = models.IntegerField(_("Durée (En secondes)"), blank=True)
+    length = models.IntegerField(_("Durée (En secondes)"), blank=True, null=True)
     file = models.FileField(upload_to='video/', verbose_name=_("Vidéo"))
 
 class ImageArtwork(Artwork):
     file = models.FileField(upload_to='image/', verbose_name=_("Image"))
 
 class SoundArtwork(Artwork):
-    length = models.IntegerField(_("Durée (en secondes)"), blank=True)
+    length = models.IntegerField(_("Durée (en secondes)"), blank=True, null=True)
     file = models.FileField(upload_to='audio/', verbose_name=_("Son"))
 
 class Artist(models.Model):
@@ -93,11 +101,13 @@ class Artist(models.Model):
     def __str__(self):
         return self.stage_name
 
-
-class Exposition(models.Model):
+#@TODO Add opening/closing hours
+class Exposition(TranslatableModel):
     expo_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=64, verbose_name=_("Titre de l'exposition"))
-    description = models.TextField(verbose_name=_("Description"))
+    translations = TranslatedFields (
+        title = models.CharField(max_length=64, verbose_name=_("Titre de l'exposition")),
+        description = models.TextField(verbose_name=_("Description")),
+    )
     author = models.CharField(max_length=64, blank=True, verbose_name=_("Auteur de l'exposition"))
     start_date = models.DateField(verbose_name=_("Début de l'exposition"))
     end_date = models.DateField(verbose_name=_("Fin de l'exposition"))
@@ -107,9 +117,12 @@ class Exposition(models.Model):
     def __str__(self):
         return self.title
 
-class Display(models.Model):
+class Display(TranslatableModel):
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     exposition = models.ForeignKey(Exposition, on_delete=models.CASCADE)
+    translations = TranslatedFields(
+        description = models.TextField(_("Description")),
+    )
     #@TODO add location of the artwork
     nbViews = models.IntegerField(default=0, verbose_name=_("Nombre de vues"))
     deliveryTime = models.TimeField(blank=True,null=True, verbose_name=_("Date de livraison"))
