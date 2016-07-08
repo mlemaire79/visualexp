@@ -16,28 +16,27 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: visualAdmin/admin.py:24
 msgid "Infos Oeuvre"
-msgstr ""
+msgstr "Infos Oeuvre[zh]"
 
 #. Translators: Form label for Tag name Field
 #: visualAdmin/models.py:19
 msgid "Libellé du tag"
-msgstr ""
+msgstr "Ching CHong Label"
 
 #: visualAdmin/models.py:20
 msgid "Description du tag"
-msgstr ""
+msgstr "Ching Chong Description"
 
 #: visualAdmin/models.py:41
 msgid "Titre de l'oeuvre"
-msgstr ""
+msgstr "Ching Chong Title"
 
 #: visualAdmin/models.py:42
 msgid "Description de l'oeuvre"
-msgstr ""
+msgstr "Ching Chong Description"
 
 #: visualAdmin/models.py:44
 msgid "Date de publication"
@@ -45,11 +44,11 @@ msgstr ""
 
 #: visualAdmin/models.py:79
 msgid "Oeuvre"
-msgstr ""
+msgstr "Oeuvre[zh]"
 
 #: visualAdmin/models.py:80
 msgid "Oeuvres"
-msgstr ""
+msgstr "Oeuvres[zh]"
 
 #: visualAdmin/models.py:86
 msgid "Durée (En secondes)"

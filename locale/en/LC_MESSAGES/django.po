@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-06 12:12+0200\n"
+"POT-Creation-Date: 2016-07-09 01:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,111 +17,147 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: visualAdmin/admin.py:24
+msgid "Infos Oeuvre"
+msgstr "Artwork Infos"
+
 #. Translators: Form label for Tag name Field
-#: visualAdmin/models.py:14
+#: visualAdmin/models.py:19
 msgid "Libellé du tag"
 msgstr "Tag Label"
 
-#: visualAdmin/models.py:15
+#: visualAdmin/models.py:20
 msgid "Description du tag"
 msgstr "Tag Description"
 
-#: visualAdmin/models.py:30
+#: visualAdmin/models.py:41
 msgid "Titre de l'oeuvre"
-msgstr ""
+msgstr "Artwork Title"
 
-#: visualAdmin/models.py:31
+#: visualAdmin/models.py:42
 msgid "Description de l'oeuvre"
-msgstr ""
+msgstr "Artwork Description"
 
-#: visualAdmin/models.py:32
+#: visualAdmin/models.py:44
 msgid "Date de publication"
 msgstr ""
 
-#: visualAdmin/models.py:70
+#: visualAdmin/models.py:79
+msgid "Oeuvre"
+msgstr "Artwork"
+
+#: visualAdmin/models.py:80
+msgid "Oeuvres"
+msgstr "Artworks"
+
+#: visualAdmin/models.py:86
 msgid "Durée (En secondes)"
 msgstr ""
 
-#: visualAdmin/models.py:71
+#: visualAdmin/models.py:87
 msgid "Vidéo"
 msgstr ""
 
-#: visualAdmin/models.py:74
+#: visualAdmin/models.py:90
 msgid "Image"
 msgstr ""
 
-#: visualAdmin/models.py:77
+#: visualAdmin/models.py:93
 msgid "Durée (en secondes)"
 msgstr ""
 
-#: visualAdmin/models.py:78
+#: visualAdmin/models.py:94
 msgid "Son"
 msgstr ""
 
-#: visualAdmin/models.py:82
+#: visualAdmin/models.py:98
 msgid "Prénom"
 msgstr ""
 
-#: visualAdmin/models.py:83
+#: visualAdmin/models.py:99
 msgid "Nom"
 msgstr ""
 
-#: visualAdmin/models.py:84
+#: visualAdmin/models.py:100
 msgid "Pseudonyme"
 msgstr ""
 
-#: visualAdmin/models.py:85 visualAdmin/models.py:138
+#: visualAdmin/models.py:101 visualAdmin/models.py:159
 msgid "Date de naissance"
 msgstr ""
 
-#: visualAdmin/models.py:95
+#: visualAdmin/models.py:112
 msgid "Titre de l'exposition"
 msgstr ""
 
-#: visualAdmin/models.py:96
+#: visualAdmin/models.py:113 visualAdmin/models.py:128
+#, fuzzy
+#| msgid "Description du tag"
 msgid "Description"
-msgstr ""
+msgstr "Tag Description"
 
-#: visualAdmin/models.py:97
+#: visualAdmin/models.py:115
 msgid "Auteur de l'exposition"
 msgstr ""
 
-#: visualAdmin/models.py:98
+#: visualAdmin/models.py:116
 msgid "Début de l'exposition"
 msgstr ""
 
-#: visualAdmin/models.py:99
+#: visualAdmin/models.py:117
 msgid "Fin de l'exposition"
 msgstr ""
 
-#: visualAdmin/models.py:110
+#: visualAdmin/models.py:131
 msgid "Nombre de vues"
 msgstr ""
 
-#: visualAdmin/models.py:111
+#: visualAdmin/models.py:132
 msgid "Date de livraison"
 msgstr ""
 
-#: visualAdmin/models.py:112
+#: visualAdmin/models.py:133
 msgid "Arrivée"
 msgstr ""
 
-#: visualAdmin/models.py:125
+#: visualAdmin/models.py:146
 msgid "Début de la tâche"
 msgstr ""
 
-#: visualAdmin/models.py:126
+#: visualAdmin/models.py:147
 msgid "Fin de la tâche"
 msgstr ""
 
-#: visualAdmin/models.py:127
+#: visualAdmin/models.py:148
 msgid "Nom de la tâche"
 msgstr ""
 
-#: visualAdmin/models.py:128
+#: visualAdmin/models.py:149
+#, fuzzy
+#| msgid "Description du tag"
 msgid "Description de la tâche"
+msgstr "Tag Description"
+
+#: visualAdmin/models.py:160
+msgid "Numéro de téléphone"
 msgstr ""
 
-#: visualAdmin/models.py:139
-msgid "Numéro de téléphone"
+#: visualexpcode/settings.py:141
+msgid "Français"
+msgstr ""
+
+#: visualexpcode/settings.py:142
+msgid "Anglais"
+msgstr ""
+
+#: visualexpcode/settings.py:143
+msgid "Allemand"
+msgstr ""
+
+#: visualexpcode/settings.py:144
+msgid "Russe"
+msgstr ""
+
+#: visualexpcode/settings.py:145
+msgid "Chinois"
 msgstr ""

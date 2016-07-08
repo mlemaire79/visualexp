@@ -11,6 +11,8 @@
   * makemigrations : Crée de nouvelles migrations sur la base des modifications détectées dans les modèles.
   * runserver : Lancer le serveur par shell sans apache (permet un débogage au besoin)
   * collectstatic : récupere les fichiers se trouvant dans /static dans chaque application installée.
+  * makemessages : récupere les chaines de caracteres a traduire
+  * compilemassages : compile les fichiers de langue pour pouvoir les utiliser.
 
 ## Applications requises
 See requirements.txt 

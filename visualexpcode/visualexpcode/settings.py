@@ -120,7 +120,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'fr'
+# FOR TESTING PURPOSES ! 
+# Uncomment the display language 
+# LANGUAGE_CODE = 'fr' #Francais
+LANGUAGE_CODE = 'en' #Anglais
+# LANGUAGE_CODE = 'de' #Allemand
+#LANGUAGE_CODE = 'ru' #Russe
+#LANGUAGE_CODE = 'zh-hans' #Chinois(Simplifié)
+
 
 TIME_ZONE = 'Europe/Paris'
 
@@ -135,7 +142,7 @@ LANGUAGES = [
     ('en', _('Anglais')),
     ('de', _('Allemand')),
     ('ru', _('Russe')),
-    ('zh', _('Chinois')),
+    ('zh-hans', _('Chinois')),
 ]
 
 # @TODO Add missing langs
@@ -145,7 +152,7 @@ PARLER_LANGUAGES = {
         {'code': 'en',},
         {'code': 'de',},
         {'code': 'ru',},
-        {'code': 'zh',},
+        {'code': 'zh-hans',},
     ),
     'default': {
         'fallbacks': ['fr'],          # defaults to PARLER_DEFAULT_LANGUAGE_CODE
@@ -154,9 +161,10 @@ PARLER_LANGUAGES = {
 }
 
 
-LOCALE_PATHS = [
-    '/var/visualexp/locale'
-]
+LOCALE_PATHS = (
+    '/var/visualexp/locale',
+)
+
 
 
 # Static files (CSS, JavaScript, Images)
