@@ -1,7 +1,8 @@
 from django.contrib import admin
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from .models import VisualUser, Tag, Artist, VideoArtwork, ImageArtwork, SoundArtwork, Artwork, Display, Exposition, Task
-from parler.admin import TranslatableAdmin
+from parler.admin import TranslatableAdmin, TranslatableModelForm
+from django.utils.translation import ugettext_lazy as _
 
 # Register your models here.
 
@@ -15,12 +16,13 @@ class TranslatableTag(TranslatableAdmin):
 admin.site.register(Tag, TranslatableTag)
 
 #ARTWORK
-class SoundArtworkAdmin(PolymorphicChildModelAdmin):
+class SoundArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
+    base_form = TranslatableModelForm
     base_model = Artwork
     base_fieldsets = (
         [
-            'Infos Oeuvre',
-            {'fields':['title','description','publication_date','tags']}
+            _('Infos Oeuvre'),
+            {'fields':['publication_date','tags']}
         ],
         [
             'Infos Oeuvre Sonore',
@@ -28,12 +30,14 @@ class SoundArtworkAdmin(PolymorphicChildModelAdmin):
         ],
     )
 
-class VideoArtworkAdmin(PolymorphicChildModelAdmin):
+
+class VideoArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
+    base_form = TranslatableModelForm
     base_model = Artwork
     base_fieldsets = (
         [
             'Infos Oeuvre',
-            {'fields':['title','description','publication_date','tags']}
+            {'fields':['publication_date','tags']}
         ],
         [
             'Infos Oeuvre Sonore',
@@ -41,12 +45,13 @@ class VideoArtworkAdmin(PolymorphicChildModelAdmin):
         ],
     )
 
-class ImageArtworkAdmin(PolymorphicChildModelAdmin):
+class ImageArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
+    base_form = TranslatableModelForm
     base_model = Artwork
     base_fieldsets = (
         [
             'Infos Oeuvre',
-            {'fields':['title','description','publication_date','tags']}
+            {'fields':['publication_date','tags']}
         ],
         [
             'Infos Oeuvre Sonore',
@@ -54,8 +59,10 @@ class ImageArtworkAdmin(PolymorphicChildModelAdmin):
         ],
     )
 
-class ArtworkParentModel(PolymorphicParentModelAdmin):
+class ArtworkParentModel(TranslatableAdmin, PolymorphicParentModelAdmin):
+    base_form = TranslatableModelForm
     base_model = Artwork
+    list_display = ('title', 'description',)
 
     def get_child_models(self):
         return [
@@ -73,3 +80,7 @@ admin.site.register(Display)
 admin.site.register(Task)
 
 #Translations 
+# class ArtworkTranslatableAdmin(TranslatableAdmin):
+#     pass
+# admin.site.unregister(Artwork)
+# admin.site.register(Artwork, ArtworkTranslatableAdmin)
