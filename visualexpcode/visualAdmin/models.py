@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 #ATTENTION: Le class order peut interferer avec le makemigrations
 # @TODO Ajouter les commentaires pour les traducteurs
+# @TODO Add verbose names to all models for translations ( See Artwork Meta class)
 
 class Tag(TranslatableModel):
     tag_id = models.AutoField(primary_key=True)
@@ -74,6 +75,10 @@ class Artwork(PolymorphicModel, TranslatableModel):
                 return "video"
         else:
             return "sound"
+
+    class Meta:
+        verbose_name = _('Oeuvre')
+        verbose_name_plural = _('Oeuvres')
 
 
 
