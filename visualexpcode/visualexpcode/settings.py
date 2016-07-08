@@ -164,6 +164,7 @@ STATICFILES_FINDERS = (
 #Get bootstrap less files
 #For our less files
 #my_app_less = os.path.join(BASE_DIR, 'my_app', 'static', 'less')
+visualexp_less = os.path.join(BASE_DIR, 'visualexpcode', 'static', 'less')
 
 # For apps outside of your project, it's simpler to import them to find their root folders
 import twitter_bootstrap
@@ -183,7 +184,7 @@ PIPELINE = {
         '/usr/local/bin/lessc',
     },
     'LESS_ARGUMENTS': {
-        u'--include-path={}'.format(os.pathsep.join(bootstrap_less)),
+        u'--include-path={}'.format(os.pathsep.join([bootstrap_less, visualexp_less])),
     },
     'YUGLIFY_BINARY': {
         '/usr/local/bin/yuglify',
@@ -192,11 +193,19 @@ PIPELINE = {
         'bootstrap': {
             'source_filenames': (
               'twitter_bootstrap/less/bootstrap.less',
-              'static/less/project-colors.less',
              ),
             'output_filename': 'css/b.css',
             'extra_context': {
                 'media': 'screen,projection',
+            },
+        },
+        'default': {
+            'source_filenames': (
+                'static/less/project-colors.less',
+            ),
+            'output_filename': 'css/default.css',
+            'extra_context': {
+                'media': 'screen, projection',
             },
         },
     },
