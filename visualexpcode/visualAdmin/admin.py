@@ -1,4 +1,8 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.forms import ModelForm
+from django.contrib.auth.models import User
+
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from .models import VisualUser, Tag, Artist, VideoArtwork, ImageArtwork, SoundArtwork, Artwork, Display, Exposition, Task
 from parler.admin import TranslatableAdmin, TranslatableModelForm
@@ -7,7 +11,31 @@ from django.utils.translation import ugettext_lazy as _
 # Register your models here.
 
 #VISUALUSER
-admin.site.register(VisualUser)
+# Inline Admin Descriptor for VisualUser
+class VisualUserInline(admin.StackedInline):
+    model = VisualUser
+    can_delete = False
+    verbose_name_plural=_('Informations Complémentaires')
+# @TODO Finish Adding fields for user modification
+# @TODO Insert Basic group & user data.
+class UserAdmin(BaseUserAdmin):
+    inlines = (VisualUserInline,)
+    # change_form = CustomUserForm
+    fieldsets = (
+        (None, {
+            'fields': ('username', 'password')
+        }),
+        (_('Informations Utilisateur'), {
+            'fields': ('first_name', 'last_name', 'email')
+        }),
+        (_('Groupes'), {
+            'fields': ('groups', 'user_permissions')
+            }),
+    )
+
+#Reregister user in admin
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 
 #TAG
 class TranslatableTag(TranslatableAdmin):
