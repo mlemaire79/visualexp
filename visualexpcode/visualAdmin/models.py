@@ -10,7 +10,6 @@ from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 #ATTENTION: Le class order peut interferer avec le makemigrations
 # @TODO Ajouter les commentaires pour les traducteurs
-# @TODO Add verbose names to all models for translations ( See Artwork Meta class)
 
 class Tag(TranslatableModel):
     tag_id = models.AutoField(primary_key=True)
@@ -29,6 +28,11 @@ class Tag(TranslatableModel):
 
     def get_artists(self):
         return list(chain(self.artist_set.all()))
+
+        class Meta:
+            # Translators: Model name for Tag(s)
+            verbose_name = _('Etiquette')
+            verbose_name_plural = _('Etiquettes')
 
 
 """Abstract Model for the artworks"""
@@ -77,6 +81,7 @@ class Artwork(PolymorphicModel, TranslatableModel):
             return "sound"
 
     class Meta:
+        # Translators: Model name for Artwork
         verbose_name = _('Oeuvre')
         verbose_name_plural = _('Oeuvres')
 
@@ -87,12 +92,27 @@ class VideoArtwork(Artwork):
     length = models.IntegerField(_("Durée (En secondes)"), blank=True, null=True)
     file = models.FileField(upload_to='video/', verbose_name=_("Vidéo"))
 
+    class Meta:
+        # Translators: Model name for VideoArtwork(s)
+        verbose_name = _('Oeuvre Vidéo')
+        verbose_name_plural = _('Oeuvres Vidéo')
+
 class ImageArtwork(Artwork):
     file = models.FileField(upload_to='image/', verbose_name=_("Image"))
+
+    class Meta:
+        # Translators: Model name for ImageArtwork(s)
+        verbose_name = _('Oeuvre Image')
+        verbose_name_plural = _('Oeuvres Image')
 
 class SoundArtwork(Artwork):
     length = models.IntegerField(_("Durée (en secondes)"), blank=True, null=True)
     file = models.FileField(upload_to='audio/', verbose_name=_("Son"))
+
+    class Meta:
+        # Translators: Model name for SoundArtwork(s)
+        verbose_name = _('Oeuvre Sonore')
+        verbose_name_plural = _('Oeuvres Sonore')
 
 class Artist(models.Model):
     artist_id = models.AutoField(primary_key=True)
@@ -105,6 +125,11 @@ class Artist(models.Model):
 
     def __str__(self):
         return self.stage_name
+
+    class Meta:
+        # Translators: Model name for Artist(s)
+        verbose_name = _('Artiste')
+        verbose_name_plural = _('Artistes')
 
 #@TODO Add opening/closing hours
 class Exposition(TranslatableModel):
@@ -121,6 +146,11 @@ class Exposition(TranslatableModel):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        # Translators: Model name for Exposition(s)
+        verbose_name = _('Exposition')
+        verbose_name_plural = _('Expositions')
 
 class Display(TranslatableModel):
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
@@ -140,6 +170,11 @@ class Display(TranslatableModel):
         self.nbViews = self.nbViews + 1
         self.save
 
+    class Meta:
+        # Translators: Model name for Display(s)
+        verbose_name = _('Exposé')
+        verbose_name_plural = _('Exposés')
+
 
 class Task(models.Model):
     id_task = models.AutoField(primary_key=True)
@@ -155,13 +190,23 @@ class Task(models.Model):
     def get_users(self):
         return self.user_set.all()
 
+    class Meta:
+        # Translators: Model name for Task(s)
+        verbose_name = _('Tâche')
+        verbose_name_plural = _('Tâches')
+
 class VisualUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birth_date = models.DateField(verbose_name=_("Date de naissance")),
     telephone = models.CharField(max_length=12, verbose_name=_("Numéro de téléphone"))
-    tasks = models.ManyToManyField(Task)
+    tasks = models.ManyToManyField(Task, blank=True)
 
     def __str__(self):
         return self.user.first_name + self.user.last_name
+
+    class Meta:
+        # Translators: Model name for User(s)
+        verbose_name = _('Utilisateur')
+        verbose_name_plural = _('Utilisateurs')
 
 

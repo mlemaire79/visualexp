@@ -122,8 +122,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # FOR TESTING PURPOSES ! 
 # Uncomment the display language 
-# LANGUAGE_CODE = 'fr' #Francais
-LANGUAGE_CODE = 'en' #Anglais
+LANGUAGE_CODE = 'fr' #Francais
+#LANGUAGE_CODE = 'en' #Anglais
 # LANGUAGE_CODE = 'de' #Allemand
 #LANGUAGE_CODE = 'ru' #Russe
 #LANGUAGE_CODE = 'zh-hans' #Chinois(Simplifié)
