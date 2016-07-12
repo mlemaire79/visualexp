@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for visualexpcode project.
 
@@ -126,7 +127,7 @@ LANGUAGE_CODE = 'fr' #Francais
 #LANGUAGE_CODE = 'en' #Anglais
 # LANGUAGE_CODE = 'de' #Allemand
 #LANGUAGE_CODE = 'ru' #Russe
-#LANGUAGE_CODE = 'zh-hans' #Chinois(Simplifié)
+#LANGUAGE_CODE = 'zh-hans' #Chinois(Simplifie)
 
 
 TIME_ZONE = 'Europe/Paris'

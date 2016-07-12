@@ -16,22 +16,58 @@ class VisualUserInline(admin.StackedInline):
     model = VisualUser
     can_delete = False
     verbose_name_plural=_('Informations Complémentaires')
+
 # @TODO Finish Adding fields for user modification
 # @TODO Insert Basic group & user data.
 class UserAdmin(BaseUserAdmin):
-    inlines = (VisualUserInline,)
+    inlines = []
     # change_form = CustomUserForm
-    fieldsets = (
-        (None, {
-            'fields': ('username', 'password')
-        }),
-        (_('Informations Utilisateur'), {
-            'fields': ('first_name', 'last_name', 'email')
-        }),
-        (_('Groupes'), {
-            'fields': ('groups', 'user_permissions')
-            }),
-    )
+
+    def get_fieldsets(self, request, obj=None, **kwargs):
+        """Override this method in order to get custom fieldsets according to roles """
+        if not obj: 
+            return super(UserAdmin,self).get_fieldsets(request, None)
+        if request.user.is_superuser:
+            fieldsets = (
+                (None, {
+                    'fields': ('username', 'password')
+                }),
+                (_('Informations Utilisateur'), {
+                    'fields': ('first_name', 'last_name', 'email')
+                }),
+                (_('Groupes'), {
+                    'fields': ('groups', 'user_permissions')
+                    }),
+            )
+        else:
+            fieldsets = (
+                (None, {
+                    'fields': ('username', 'password')
+                }),
+                (_('Informations Utilisateur'), {
+                    'fields': ('first_name', 'last_name', 'email')
+                }),
+                (_('Groupes'), {
+                    'fields': ('groups',)
+                    }),
+            )
+        return fieldsets
+
+    def add_view(self, request, form_url='', extra_context=None):
+        self.inlines = []
+        self.fieldsets = self.get_fieldsets(request)
+        return super(UserAdmin,self).add_view(request,form_url, extra_context)
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        #self.fieldsets = self.get_fieldsets(request)
+        self.inlines = (VisualUserInline,)
+        return super(UserAdmin,self).change_view(request,object_id, form_url, extra_context)
+
+    def save_model(self, request, obj, form, change):
+        obj.is_staff = True
+        obj.is_active = True
+        obj.save()
+
 
 #Reregister user in admin
 admin.site.unregister(User)
