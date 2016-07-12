@@ -23,7 +23,7 @@ admin ( super user )
 Directeur ( Site Admin)
 Employe (Employe)
 
-Pass : django dev
+Pass : djangodev
 
 Pour importer les données :
 python manage.py loaddata ../Data/Users.json
