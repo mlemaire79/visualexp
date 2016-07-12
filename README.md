@@ -17,3 +17,14 @@
 ## Applications requises
 See requirements.txt 
 run with pip install -r requirements.txt
+
+Utilisateurs de test :
+admin ( super user )
+Directeur ( Site Admin)
+Employe (Employe)
+
+Pass : django dev
+
+Pour importer les données :
+python manage.py loaddata ../Data/Users.json
+( python manage.py flush pour vider la base si besoin )
