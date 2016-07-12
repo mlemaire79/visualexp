@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'jquery',
     'parler',
     'tinymce',
+    'qrcode',
     #VisualexpModules
     'visualAdmin',#.apps.VisualadminConfig',
     'visualexpcode',
