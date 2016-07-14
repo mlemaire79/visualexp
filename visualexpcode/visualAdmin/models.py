@@ -98,7 +98,7 @@ class VideoArtwork(Artwork):
         verbose_name_plural = _('Oeuvres Vidéo')
 
 class ImageArtwork(Artwork):
-    file = models.FileField(upload_to='image/', verbose_name=_("Image"))
+    file = models.ImageField(upload_to='image/', verbose_name=_("Image"))
 
     class Meta:
         # Translators: Model name for ImageArtwork(s)
@@ -125,6 +125,7 @@ class Artist(TranslatableModel):
     translations = TranslatedFields(
             description = models.TextField(verbose_name = _('Biographie'), blank=True, null=True)
         )
+    photo = models.ImageField(blank = True, null= True, verbose_name=_('Photo de l\'Artiste'), upload_to='image/')
 
     def get_display_name(self):
         if not self.stage_name == '':
