@@ -123,7 +123,7 @@ class Artist(TranslatableModel):
     artworks = models.ManyToManyField(Artwork, blank = True)
     tags = models.ManyToManyField(Tag, blank = True)
     translations = TranslatedFields(
-            description = models.TextField(verbose_name = _('Biographie'))
+            description = models.TextField(verbose_name = _('Biographie'), blank=True, null=True)
         )
 
     def get_display_name(self):
@@ -131,6 +131,8 @@ class Artist(TranslatableModel):
             return self.stage_name
         else:
             return self.first_name +' '+ self.last_name
+    # Translators : Column Name for artist display name in admin
+    get_display_name.short_description = _("Artiste")
 
     def __str__(self):
         return self.get_display_name()
