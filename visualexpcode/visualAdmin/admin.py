@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from .models import VisualUser, Tag, Artist, VideoArtwork, ImageArtwork, SoundArtwork, Artwork, Display, Exposition, Task
+from datetime import date, timedelta
 from parler.admin import TranslatableAdmin, TranslatableModelForm
 from tinymce.widgets import TinyMCE
 from django.utils.translation import ugettext_lazy as _
@@ -186,7 +187,125 @@ class ArtistAdmin(TranslatableAdmin):
         obj.delete()
 
 admin.site.register(Artist, ArtistAdmin)
-admin.site.register(Exposition)
+
+#Exposition
+class StartDateExpositionListFilter(admin.SimpleListFilter):
+    """
+    Set a custom filter for exposition by start_date
+    """
+    # Translators : Filter for exposition in admin interface
+    title = _('Date de Début')
+
+    parameter_name = 'start_date'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar
+        """
+        return (
+            ('following', _('Expositions à venir')),
+            ('week', ('Cette Semaine')),
+            ('month', ('Ce Mois-ci')),
+            ('year', ('Cette Année')),
+            ('nextyear', ("L'an prochain"))
+        )
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        today = date.today()
+        #isocalendar : Return a 3-tuple, (ISO year, ISO week number, ISO weekday) weekday starts at sunday = 0
+        isocal = date.isocalendar(today)
+        curr_year = today.year
+        curr_month = today.month
+        week_beginning = today- timedelta(days=date.isocalendar(today)[2])
+        week_end = today + timedelta(days=(6 - date.isocalendar(today)[2]))
+
+
+        if self.value() == 'following':
+            return queryset.filter(start_date__gte=today)
+        if self.value() == 'week':
+            return queryset.filter(start_date__range=(week_beginning, week_end))
+        if self.value() == 'month':
+            return queryset.filter(start_date__month=curr_month)
+        if self.value() == 'year':
+            return queryset.filter(start_date__year=2016)
+        if self.value() == 'nextyear':
+            return queryset.filter(start_date__year=curr_year+1)
+
+class EndDateExpositionListFilter(admin.SimpleListFilter):
+    """
+    Set a custom filter for exposition by end date
+    """
+    # Translators : Filter for exposition in admin interface
+    title = _('Date de Fin')
+
+    parameter_name = 'end_date'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar
+        """
+        return (
+            ('ended', _('Expositions terminées')),
+            ('week', ('Cette Semaine')),
+            ('month', ('Ce Mois-ci')),
+            ('year', ('Cette Année')),
+            ('nextyear', ("L'an prochain"))
+        )
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        today = date.today()
+        #isocalendar : Return a 3-tuple, (ISO year, ISO week number, ISO weekday) weekday starts at sunday = 0
+        isocal = date.isocalendar(today)
+        curr_year = today.year
+        curr_month = today.month
+        week_beginning = today- timedelta(days=date.isocalendar(today)[2])
+        week_end = today + timedelta(days=(6 - date.isocalendar(today)[2]))
+
+
+        if self.value() == 'ended':
+            return queryset.filter(end_date__lt=today)
+        if self.value() == 'week':
+            return queryset.filter(end_date__range=(week_beginning, week_end))
+        if self.value() == 'month':
+            return queryset.filter(end_date__month=curr_month)
+        if self.value() == 'year':
+            return queryset.filter(end_date__year=2016)
+        if self.value() == 'nextyear':
+            return queryset.filter(end_date__year=curr_year+1)
+
+
+class ExpositionAdmin(TranslatableAdmin):
+    base_form = TranslatableModelForm
+    base_model = Exposition
+    list_display = ('title', 'start_date', 'end_date', 'author')
+    search_fields = ('translations__title','author')
+    list_filter = (StartDateExpositionListFilter, EndDateExpositionListFilter)
+    fields = ('title', 'author', 'start_date', 'end_date', 'description')
+    formfield_overrides = {
+        models.TextField: {'widget': TinyMCE}
+    }
+
+
+ 
+admin.site.register(Exposition, ExpositionAdmin)
 admin.site.register(Display)
 admin.site.register(Task)
 
