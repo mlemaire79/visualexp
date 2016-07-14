@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
 from itertools import chain
 from polymorphic.models import PolymorphicModel
 from parler.models import TranslatableModel, TranslatedFields
@@ -164,6 +165,15 @@ class Exposition(TranslatableModel):
     start_date = models.DateField(verbose_name=_("Début de l'exposition"))
     end_date = models.DateField(verbose_name=_("Fin de l'exposition"))
     artworks = models.ManyToManyField(Artwork, through='Display')
+
+    def clean(self):
+        """
+        Start date sould be before end date
+        """
+        if self.start_date > self.end_date:
+            raise ValidationError({
+                'end_date':_('La date de fin doit etre postérieure à la date de début.'),
+                'start_date': _('La date de début doit etre antérieure à la date de fin.')})
 
 
     def __str__(self):
