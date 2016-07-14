@@ -3,6 +3,11 @@
 
 @website www.visualexp.com
 
+## Apres chaque pull : 
+dans /var/visualexp lancer la commande 
+./make.sh
+(lance la mise a jour des requirements et le migrate)
+
 ## Commandes utiles
 - sudo apachectl restart
 - workon visualexp

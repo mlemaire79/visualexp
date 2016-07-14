@@ -2,6 +2,10 @@
 # https://www.djangoproject.com/
 Django==1.9.6
 
+# Pillow ( PIL Fork - Required for image fields)
+# https://pypi.python.org/pypi/Pillow/3.3.0
+Pillow >= 3.3.0
+
 # Group Model Classes in admin
 # https://github.com/django-polymorphic/django-polymorphic
 # https://django-polymorphic.readthedocs.io/
