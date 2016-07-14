@@ -114,7 +114,7 @@ class SoundArtwork(Artwork):
         verbose_name = _('Oeuvre Sonore')
         verbose_name_plural = _('Oeuvres Sonore')
 
-class Artist(models.Model):
+class Artist(TranslatableModel):
     artist_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=64, verbose_name=_("Prénom"))
     last_name = models.CharField(max_length=64, verbose_name=_("Nom"))
@@ -122,6 +122,9 @@ class Artist(models.Model):
     birth_date = models.DateField(blank=True, null=True, verbose_name=_("Date de naissance"))
     artworks = models.ManyToManyField(Artwork)
     tags = models.ManyToManyField(Tag)
+    translations = TranslatedFields(
+            description = models.TextField(verbose_name = _('Biographie'))
+        )
 
     def __str__(self):
         return self.stage_name
