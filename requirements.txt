@@ -29,7 +29,3 @@ django-parler>=1.6.4
 # https://github.com/aljosa/django-tinymce
 # http://django-tinymce.readthedocs.io/en/latest/
 django-tinymce >= 2.3.0
-
-# QrCode Generator
-# https://github.com/pablorecio/django-qrcode
-django-qrcode >= 0.3
