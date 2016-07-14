@@ -1,11 +1,14 @@
+# @TODO Fix Imports ( que bordel !)
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-
+from django.db import models
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from .models import VisualUser, Tag, Artist, VideoArtwork, ImageArtwork, SoundArtwork, Artwork, Display, Exposition, Task
 from parler.admin import TranslatableAdmin, TranslatableModelForm
+from tinymce.widgets import TinyMCE
 from django.utils.translation import ugettext_lazy as _
 
 # Register your models here.
@@ -17,11 +20,12 @@ class VisualUserInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural=_('Informations Complémentaires')
 
-# @TODO Finish Adding fields for user modification
 # @TODO Insert Basic group & user data.
 class UserAdmin(BaseUserAdmin):
     inlines = []
-    # change_form = CustomUserForm
+    list_display = ('username', 'last_name', 'first_name', 'email', 'last_login' )
+    list_filter = ('groups', 'last_login')
+    search_fields = ('username', 'last_name')
 
     def get_fieldsets(self, request, obj=None, **kwargs):
         """Override this method in order to get custom fieldsets according to roles """
@@ -37,6 +41,9 @@ class UserAdmin(BaseUserAdmin):
                 }),
                 (_('Groupes'), {
                     'fields': ('groups', 'user_permissions')
+                    }),
+                (_('Informations Admin'), {
+                    'fields': ('is_active', 'is_staff', 'last_login', 'date_joined')
                     }),
             )
         else:
@@ -100,11 +107,11 @@ class VideoArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
     base_model = Artwork
     base_fieldsets = (
         [
-            'Infos Oeuvre',
+            _('Infos Oeuvre'),
             {'fields':['publication_date','tags']}
         ],
         [
-            'Infos Oeuvre Sonore',
+            _('Infos Oeuvre Sonore'),
             {'fields':['file', 'length']}
         ],
     )
@@ -114,11 +121,11 @@ class ImageArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
     base_model = Artwork
     base_fieldsets = (
         [
-            'Infos Oeuvre',
+            _('Infos Oeuvre'),
             {'fields':['publication_date','tags']}
         ],
         [
-            'Infos Oeuvre Sonore',
+            _('Infos Oeuvre Sonore'),
             {'fields':['file']}
         ],
     )
@@ -138,7 +145,47 @@ class ArtworkParentModel(TranslatableAdmin, PolymorphicParentModelAdmin):
 admin.site.register(Artwork, ArtworkParentModel)
 
 #ARTIST
-admin.site.register(Artist)
+class ArtistAdmin(TranslatableAdmin):
+    base_form = TranslatableModelForm
+    base_model = Artist
+    list_display = ('get_display_name','last_name', 'first_name',)
+    search_fields = ('first_name', 'last_name', 'stage_name')
+    list_filter = ('tags',)
+    formfield_overrides = {
+        models.TextField: {'widget': TinyMCE}
+    }
+    fieldsets = (
+                (_("Informations sur l'Artiste"), {
+                    'fields': ('first_name', 'last_name', 'stage_name', 'birth_date', 'tags')
+                }),
+                (_('Affichage'), {
+                    'fields': ('description','photo', 'image_tag')
+                    }),
+                (_('Oeuvres'), {
+                    'fields': ('artworks',)
+                    }),
+            )
+    # fields= ('image_tag',)
+    readonly_fields = ('image_tag',)
+
+    def save_model(self, request, obj, form, change):
+        """ Delete old file when replacing photo """
+
+        try:
+            old = Artist.objects.get(artist_id=obj.artist_id)
+            if old.photo != obj.photo:
+                old.photo.delete(save=False)
+        except: pass # When new photo do nothing
+        obj.save()
+
+    def delete_model(self, request, obj):
+        try:
+            old = Artist.objects.get(artist_id=obj.artist_id)
+            old.photo.delete(save=False)
+        except: pass # When no photo do nothing
+        obj.delete()
+
+admin.site.register(Artist, ArtistAdmin)
 admin.site.register(Exposition)
 admin.site.register(Display)
 admin.site.register(Task)
