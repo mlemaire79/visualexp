@@ -120,14 +120,20 @@ class Artist(TranslatableModel):
     last_name = models.CharField(max_length=64, verbose_name=_("Nom"))
     stage_name = models.CharField(max_length=128, blank=True, verbose_name=_("Pseudonyme"))
     birth_date = models.DateField(blank=True, null=True, verbose_name=_("Date de naissance"))
-    artworks = models.ManyToManyField(Artwork)
-    tags = models.ManyToManyField(Tag)
+    artworks = models.ManyToManyField(Artwork, blank = True)
+    tags = models.ManyToManyField(Tag, blank = True)
     translations = TranslatedFields(
             description = models.TextField(verbose_name = _('Biographie'))
         )
 
+    def get_display_name(self):
+        if not self.stage_name == '':
+            return self.stage_name
+        else:
+            return self.first_name +' '+ self.last_name
+
     def __str__(self):
-        return self.stage_name
+        return self.get_display_name()
 
     class Meta:
         # Translators: Model name for Artist(s)
