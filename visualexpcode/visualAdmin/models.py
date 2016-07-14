@@ -5,6 +5,7 @@ from polymorphic.models import PolymorphicModel
 from parler.models import TranslatableModel, TranslatedFields
 #from parler.managers import TranslatableManager
 from .managers import ArtworkManager
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
@@ -125,7 +126,7 @@ class Artist(TranslatableModel):
     translations = TranslatedFields(
             description = models.TextField(verbose_name = _('Biographie'), blank=True, null=True)
         )
-    photo = models.ImageField(blank = True, null= True, verbose_name=_('Photo de l\'Artiste'), upload_to='image/')
+    photo = models.ImageField(blank = True, null= True, verbose_name=_('Photo de l\'Artiste'), upload_to='image/', max_length=255)
 
     def get_display_name(self):
         if not self.stage_name == '':
@@ -134,6 +135,15 @@ class Artist(TranslatableModel):
             return self.first_name +' '+ self.last_name
     # Translators : Column Name for artist display name in admin
     get_display_name.short_description = _("Artiste")
+
+    def image_tag(self):
+        """Return img markup for display in admin"""
+        if not self.photo == '':
+            return mark_safe('<img src="/media/%s" width="150" height="150" />' % (self.photo))
+        else:
+            return ''
+    image_tag.short_description = _('Prévisualisation (Après Enregistrement)')
+
 
     def __str__(self):
         return self.get_display_name()
