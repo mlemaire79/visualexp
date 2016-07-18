@@ -236,13 +236,15 @@ class Task(models.Model):
     end_date=models.DateTimeField(verbose_name=_("Fin de la tâche"))
     name = models.CharField(max_length=64, verbose_name=_("Nom de la tâche"))
     description = models.TextField(blank=True, verbose_name=_("Description de la tâche"))
-    users = models.ManyToManyField(User, blank=True)
+    users = models.ManyToManyField(User, blank=True, verbose_name=_("Utilisateurs assignés"))
+    is_completed = models.BooleanField(default=False, verbose_name='Tache Finie')
 
     def __str__ (self):
         return self.name
 
     def get_users(self):
-        return self.user_set.all()
+        return ", ".join([u.username for u in self.users.all()])
+    get_users.short_description = _("Utilisateurs Assignés")
 
     class Meta:
         # Translators: Model name for Task(s)

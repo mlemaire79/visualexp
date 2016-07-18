@@ -458,8 +458,13 @@ class ExpositionAdmin(TranslatableAdmin):
 admin.site.register(Exposition, ExpositionAdmin)
 admin.site.register(Display)
 
+# @TODO Add filters
 class TaskAdmin(ImproveRawIdFieldsForm):
      raw_id_fields = ("exposition","users",)
+     fields = ('name', 'exposition', 'users', 'start_date', 'end_date','is_completed', 'description')
+     search_fields = ('name', 'exposition__translations__title')
+     list_display = ('name', 'exposition', 'get_users', 'start_date', 'end_date', 'is_completed')
+
 
 admin.site.register(Task, TaskAdmin)
 
