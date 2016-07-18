@@ -12,6 +12,60 @@ from parler.admin import TranslatableAdmin, TranslatableModelForm
 from tinymce.widgets import TinyMCE
 from django.utils.translation import ugettext_lazy as _
 
+
+################# RAW ID FORM FIX ################
+from django import forms
+from django.contrib import admin
+from django.contrib.admin.sites import site
+from django.contrib.admin.widgets import ManyToManyRawIdWidget, ForeignKeyRawIdWidget
+from django.core.urlresolvers import reverse
+from django.utils.encoding import smart_text
+from django.utils.html import escape
+
+class VerboseForeignKeyRawIdWidget(ForeignKeyRawIdWidget):
+    def label_for_value(self, value):
+        key = self.rel.get_related_field().name
+        try:
+            obj = self.rel.to._default_manager.using(self.db).get(**{key: value})
+            change_url = reverse(
+                "admin:%s_%s_change" % (obj._meta.app_label, obj._meta.object_name.lower()),
+                args=(obj.pk,)
+            )
+            return '&nbsp;<strong><a href="%s">%s</a></strong>' % (change_url, escape(obj))
+        except (ValueError, self.rel.to.DoesNotExist):
+            return '???'
+
+class VerboseManyToManyRawIdWidget(ManyToManyRawIdWidget):
+    def label_for_value(self, value):
+        values = value.split(',')
+        str_values = []
+        key = self.rel.get_related_field().name
+        for v in values:
+            try:
+                obj = self.rel.to._default_manager.using(self.db).get(**{key: v})
+                x = smart_text(obj)
+                change_url = reverse(
+                    "admin:%s_%s_change" % (obj._meta.app_label, obj._meta.object_name.lower()),
+                    args=(obj.pk,)
+                )
+                str_values += ['<strong><a href="%s">%s</a></strong>' % (change_url, escape(x))]
+            except self.rel.to.DoesNotExist:
+                str_values += [u'???']
+        return u', '.join(str_values)
+
+class ImproveRawIdFieldsForm(admin.ModelAdmin):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name in self.raw_id_fields:
+            kwargs.pop("request", None)
+            type = db_field.rel.__class__.__name__
+            if type == "ManyToOneRel":
+                kwargs['widget'] = VerboseForeignKeyRawIdWidget(db_field.rel, site)
+            elif type == "ManyToManyRel":
+                kwargs['widget'] = VerboseManyToManyRawIdWidget(db_field.rel, site)
+            return db_field.formfield(**kwargs)
+        return super(ImproveRawIdFieldsForm, self).formfield_for_dbfield(db_field, **kwargs)
+
+
 # Register your models here.
 
 #VISUALUSER
@@ -83,76 +137,12 @@ admin.site.register(User, UserAdmin)
 
 #TAG
 class TranslatableTag(TranslatableAdmin):
+    search_fields = ('name',)
     pass
 
 admin.site.register(Tag, TranslatableTag)
 
 #ARTWORK
-class SoundArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
-    base_form = TranslatableModelForm
-    base_model = Artwork
-    formfield_overrides = {
-        models.TextField: {'widget': TinyMCE}
-    }
-    base_fieldsets = (
-        [
-            _('Infos Oeuvre Sonore'),
-            {'fields':['title', 'artist', 'file']}
-        ],
-        [
-            _('Informations Complémentaires'),
-            {'fields':['description', 'length', 'publication_date', 'tags',]}
-        ],
-    )
-
-    def save_model(self, request, obj, form, change):
-        """ Delete old file when replacing sound """
-
-        try:
-            old = SoundArtwork.objects.get(artwork_id=obj.artwork_id)
-            if old.file != obj.file:
-                old.file.delete(save=False)
-        except: pass # When new file do nothing
-        obj.save()
-
-    def delete_model(self, request, obj):
-        try:
-            old = SoundArtwork.objects.get(artwork_id=obj.artwork_id)
-            old.file.delete(save=False)
-        except: pass # When no file do nothing
-        obj.delete()
-
-
-class VideoArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
-    base_form = TranslatableModelForm
-    base_model = Artwork
-    base_fieldsets = (
-        [
-            _('Infos Oeuvre Sonore'),
-            {'fields':['title', 'artist', 'file']}
-        ],
-        [
-            _('Informations Complémentaires'),
-            {'fields':['description', 'length', 'publication_date', 'tags',]}
-        ],
-    )
-
-    def save_model(self, request, obj, form, change):
-        """ Delete old file when replacing sound """
-
-        try:
-            old = VideoArtwork.objects.get(artwork_id=obj.artwork_id)
-            if old.file != obj.file:
-                old.file.delete(save=False)
-        except: pass # When new file do nothing
-        obj.save()
-
-    def delete_model(self, request, obj):
-        try:
-            old = VideoArtwork.objects.get(artwork_id=obj.artwork_id)
-            old.file.delete(save=False)
-        except: pass # When no file do nothing
-        obj.delete()
 
 class ArtworkTypeFilter(admin.SimpleListFilter):
     """
@@ -191,9 +181,78 @@ class ArtworkTypeFilter(admin.SimpleListFilter):
         if self.value() == 'Vidéo':
             return VideoArtwork.objects.all()
 
-class ImageArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
+class SoundArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin, ImproveRawIdFieldsForm):
     base_form = TranslatableModelForm
     base_model = Artwork
+    raw_id_fields = ('tags',)
+    formfield_overrides = {
+        models.TextField: {'widget': TinyMCE}
+    }
+    base_fieldsets = (
+        [
+            _('Infos Oeuvre Sonore'),
+            {'fields':['title', 'artist', 'file']}
+        ],
+        [
+            _('Informations Complémentaires'),
+            {'fields':['description', 'length', 'publication_date', 'tags',]}
+        ],
+    )
+
+    def save_model(self, request, obj, form, change):
+        """ Delete old file when replacing sound """
+
+        try:
+            old = SoundArtwork.objects.get(artwork_id=obj.artwork_id)
+            if old.file != obj.file:
+                old.file.delete(save=False)
+        except: pass # When new file do nothing
+        obj.save()
+
+    def delete_model(self, request, obj):
+        try:
+            old = SoundArtwork.objects.get(artwork_id=obj.artwork_id)
+            old.file.delete(save=False)
+        except: pass # When no file do nothing
+        obj.delete()
+
+
+class VideoArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin, ImproveRawIdFieldsForm):
+    base_form = TranslatableModelForm
+    base_model = Artwork
+    raw_id_fields = ("tags",)
+    base_fieldsets = (
+        [
+            _('Infos Oeuvre Sonore'),
+            {'fields':['title', 'artist', 'file']}
+        ],
+        [
+            _('Informations Complémentaires'),
+            {'fields':['description', 'length', 'publication_date', 'tags',]}
+        ],
+    )
+
+    def save_model(self, request, obj, form, change):
+        """ Delete old file when replacing sound """
+
+        try:
+            old = VideoArtwork.objects.get(artwork_id=obj.artwork_id)
+            if old.file != obj.file:
+                old.file.delete(save=False)
+        except: pass # When new file do nothing
+        obj.save()
+
+    def delete_model(self, request, obj):
+        try:
+            old = VideoArtwork.objects.get(artwork_id=obj.artwork_id)
+            old.file.delete(save=False)
+        except: pass # When no file do nothing
+        obj.delete()
+
+class ImageArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin, ImproveRawIdFieldsForm):
+    base_form = TranslatableModelForm
+    base_model = Artwork
+    raw_id_fields = ('tags',)
     base_fieldsets = (
     [
         _('Infos Oeuvre Sonore'),
@@ -240,13 +299,13 @@ class ArtworkParentModel(TranslatableAdmin, PolymorphicParentModelAdmin):
 admin.site.register(Artwork, ArtworkParentModel)
 
 #ARTIST
-class ArtistAdmin(TranslatableAdmin):
+class ArtistAdmin(TranslatableAdmin, ImproveRawIdFieldsForm):
     base_form = TranslatableModelForm
     base_model = Artist
+    raw_id_fields = ('tags',)
     list_display = ('get_display_name','last_name', 'first_name',)
     search_fields = ('first_name', 'last_name', 'stage_name')
     list_filter = ('tags',)
-    raw_id_fields = ("tags",)
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE}
     }
@@ -399,8 +458,8 @@ class ExpositionAdmin(TranslatableAdmin):
 admin.site.register(Exposition, ExpositionAdmin)
 admin.site.register(Display)
 
-class TaskAdmin(admin.ModelAdmin):
-     raw_id_fields = ("exposition",)
+class TaskAdmin(ImproveRawIdFieldsForm):
+     raw_id_fields = ("exposition","users",)
 
 admin.site.register(Task, TaskAdmin)
 

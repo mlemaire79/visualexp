@@ -26,6 +26,10 @@ class Tag(TranslatableModel):
     def __str__(self):
         return self.name
 
+    def __unicode__(self):
+        return u"%s" % (self.name)
+
+
     def get_artworks(self):
         return list(chain(self.videoartwork_set.all(),self.imageartwork_set.all(),self.soundartwork_set.all()))
 
@@ -208,6 +212,22 @@ class Display(TranslatableModel):
         verbose_name = _('Exposé')
         verbose_name_plural = _('Exposés')
 
+class VisualUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    birth_date = models.DateField(verbose_name=_("Date de naissance")),
+    telephone = models.CharField(max_length=12, verbose_name=_("Numéro de téléphone"))
+
+
+    def __str__(self):
+        return self.user.first_name + self.user.last_name
+
+    def __unicode__(self):
+        return u"%s" % (self.str())
+
+    class Meta:
+        # Translators: Model name for User(s)
+        verbose_name = _('Utilisateur')
+        verbose_name_plural = _('Utilisateurs')
 
 class Task(models.Model):
     id_task = models.AutoField(primary_key=True)
@@ -216,9 +236,10 @@ class Task(models.Model):
     end_date=models.DateTimeField(verbose_name=_("Fin de la tâche"))
     name = models.CharField(max_length=64, verbose_name=_("Nom de la tâche"))
     description = models.TextField(blank=True, verbose_name=_("Description de la tâche"))
+    users = models.ManyToManyField(User, blank=True)
 
     def __str__ (self):
-        return name
+        return self.name
 
     def get_users(self):
         return self.user_set.all()
@@ -228,18 +249,6 @@ class Task(models.Model):
         verbose_name = _('Tâche')
         verbose_name_plural = _('Tâches')
 
-class VisualUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_date = models.DateField(verbose_name=_("Date de naissance")),
-    telephone = models.CharField(max_length=12, verbose_name=_("Numéro de téléphone"))
-    tasks = models.ManyToManyField(Task, blank=True)
 
-    def __str__(self):
-        return self.user.first_name + self.user.last_name
-
-    class Meta:
-        # Translators: Model name for User(s)
-        verbose_name = _('Utilisateur')
-        verbose_name_plural = _('Utilisateurs')
 
 
