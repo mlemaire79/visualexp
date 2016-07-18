@@ -91,16 +91,36 @@ admin.site.register(Tag, TranslatableTag)
 class SoundArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
     base_form = TranslatableModelForm
     base_model = Artwork
+    formfield_overrides = {
+        models.TextField: {'widget': TinyMCE}
+    }
     base_fieldsets = (
         [
-            _('Infos Oeuvre'),
-            {'fields':['publication_date','tags']}
+            _('Infos Oeuvre Sonore'),
+            {'fields':['title', 'artist', 'file']}
         ],
         [
-            'Infos Oeuvre Sonore',
-            {'fields':['file', 'length']}
+            _('Informations Complémentaires'),
+            {'fields':['description', 'length', 'publication_date', 'tags',]}
         ],
     )
+
+    def save_model(self, request, obj, form, change):
+        """ Delete old file when replacing sound """
+
+        try:
+            old = SoundArtwork.objects.get(artwork_id=obj.artwork_id)
+            if old.file != obj.file:
+                old.file.delete(save=False)
+        except: pass # When new file do nothing
+        obj.save()
+
+    def delete_model(self, request, obj):
+        try:
+            old = SoundArtwork.objects.get(artwork_id=obj.artwork_id)
+            old.file.delete(save=False)
+        except: pass # When no file do nothing
+        obj.delete()
 
 
 class VideoArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
@@ -108,33 +128,107 @@ class VideoArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
     base_model = Artwork
     base_fieldsets = (
         [
-            _('Infos Oeuvre'),
-            {'fields':['publication_date','tags']}
+            _('Infos Oeuvre Sonore'),
+            {'fields':['title', 'artist', 'file']}
         ],
         [
-            _('Infos Oeuvre Sonore'),
-            {'fields':['file', 'length']}
+            _('Informations Complémentaires'),
+            {'fields':['description', 'length', 'publication_date', 'tags',]}
         ],
     )
+
+    def save_model(self, request, obj, form, change):
+        """ Delete old file when replacing sound """
+
+        try:
+            old = VideoArtwork.objects.get(artwork_id=obj.artwork_id)
+            if old.file != obj.file:
+                old.file.delete(save=False)
+        except: pass # When new file do nothing
+        obj.save()
+
+    def delete_model(self, request, obj):
+        try:
+            old = VideoArtwork.objects.get(artwork_id=obj.artwork_id)
+            old.file.delete(save=False)
+        except: pass # When no file do nothing
+        obj.delete()
+
+class ArtworkTypeFilter(admin.SimpleListFilter):
+    """
+    Set a custom filter for Artwork by type
+    """
+    # Translators : Filter for exposition in admin interface
+    title = _('Type')
+
+    parameter_name = 'get_type'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar
+        """
+        return (
+            ('Image', _('Image')),
+            ('Son', ('Son')),
+            ('Video', ('Vidéo')),
+        )
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+
+        if self.value() == 'Image':
+            return ImageArtwork.objects.all()
+        if self.value() == 'Son':
+            return SoundArtwork.objects.all()
+        if self.value() == 'Vidéo':
+            return VideoArtwork.objects.all()
 
 class ImageArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin):
     base_form = TranslatableModelForm
     base_model = Artwork
     base_fieldsets = (
-        [
-            _('Infos Oeuvre'),
-            {'fields':['publication_date','tags']}
-        ],
-        [
-            _('Infos Oeuvre Sonore'),
-            {'fields':['file']}
-        ],
-    )
+    [
+        _('Infos Oeuvre Sonore'),
+        {'fields':['title', 'artist', 'file']}
+    ],
+    [
+        _('Informations Complémentaires'),
+        {'fields':['description', 'publication_date', 'tags',]}
+    ],
+)
+
+    def save_model(self, request, obj, form, change):
+        """ Delete old file when replacing sound """
+
+        try:
+            old = ImageArtwork.objects.get(artwork_id=obj.artwork_id)
+            if old.file != obj.file:
+                old.file.delete(save=False)
+        except: pass # When new file do nothing
+        obj.save()
+
+    def delete_model(self, request, obj):
+        try:
+            old = ImageArtwork.objects.get(artwork_id=obj.artwork_id)
+            old.file.delete(save=False)
+        except: pass # When no file do nothing
+        obj.delete()
 
 class ArtworkParentModel(TranslatableAdmin, PolymorphicParentModelAdmin):
     base_form = TranslatableModelForm
     base_model = Artwork
-    list_display = ('title', 'description',)
+    list_display = ('title', 'artist', 'get_type')
+    list_filter = (ArtworkTypeFilter,)
+    search_fields = ('translations__title', 'artist__first_name', 'artist__last_name', 'artist__stage_name')
+
 
     def get_child_models(self):
         return [
@@ -161,9 +255,6 @@ class ArtistAdmin(TranslatableAdmin):
                 }),
                 (_('Affichage'), {
                     'fields': ('description','photo', 'image_tag')
-                    }),
-                (_('Oeuvres'), {
-                    'fields': ('artworks',)
                     }),
             )
     # fields= ('image_tag',)
@@ -304,7 +395,6 @@ class ExpositionAdmin(TranslatableAdmin):
     }
 
 
- 
 admin.site.register(Exposition, ExpositionAdmin)
 admin.site.register(Display)
 admin.site.register(Task)
