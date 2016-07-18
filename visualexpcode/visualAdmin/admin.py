@@ -246,6 +246,7 @@ class ArtistAdmin(TranslatableAdmin):
     list_display = ('get_display_name','last_name', 'first_name',)
     search_fields = ('first_name', 'last_name', 'stage_name')
     list_filter = ('tags',)
+    raw_id_fields = ("tags",)
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE}
     }
@@ -397,7 +398,11 @@ class ExpositionAdmin(TranslatableAdmin):
 
 admin.site.register(Exposition, ExpositionAdmin)
 admin.site.register(Display)
-admin.site.register(Task)
+
+class TaskAdmin(admin.ModelAdmin):
+     raw_id_fields = ("exposition",)
+
+admin.site.register(Task, TaskAdmin)
 
 #Translations 
 # class ArtworkTranslatableAdmin(TranslatableAdmin):
