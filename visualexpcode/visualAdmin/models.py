@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
 from itertools import chain
+from datetime import date, timedelta
 from polymorphic.models import PolymorphicModel
 from parler.models import TranslatableModel, TranslatedFields
 #from parler.managers import TranslatableManager
@@ -161,6 +162,9 @@ class SoundArtwork(Artwork):
 
 #@TODO Add opening/closing hours
 class Exposition(TranslatableModel):
+    #Number of days separating expositions
+    DAYS_BETWEEN = 2
+
     expo_id = models.AutoField(primary_key=True)
     translations = TranslatedFields (
         title = models.CharField(max_length=64, verbose_name=_("Titre de l'exposition")),
@@ -173,12 +177,51 @@ class Exposition(TranslatableModel):
 
     def clean(self):
         """
-        Start date sould be before end date
+         - Start date sould be before end date
+         - Expositions should not overlap 
+           and have Exposition.DAYS_BETWEEN days off between each of them
         """
+
+        #Check for start/end dates
         if self.start_date > self.end_date:
             raise ValidationError({
                 'end_date':_('La date de fin doit etre postérieure à la date de début.'),
                 'start_date': _('La date de début doit etre antérieure à la date de fin.')})
+
+        #Check for overlap - days off
+        expos = Exposition.objects.all()
+        for existing in expos:
+            #Overlap
+            overlap_msg = _("Ces dates sont en conflit avec l'exposition %(exposition)s. Veuillez les changer.") % {'exposition': existing.title} 
+            turnaround_msg = _(" avec l'exposition %(exposition)s. Veuillez les changer.") % {'exposition': existing.title} 
+
+            if self.start_date > existing.start_date and self.end_date < existing.end_date:
+                raise ValidationError({
+                    'start_date': overlap_msg,
+                    'end_date': overlap_msg
+                    })
+            if self.start_date < existing.start_date and self.end_date > existing.end_date:
+                raise ValidationError({
+                    'start_date': overlap_msg,
+                    'end_date': overlap_msg
+                    })
+            if self.start_date > existing.start_date and self.start_date < existing.end_date:
+                raise ValidationError({
+                    'start_date': overlap_msg
+                    })
+            if self.end_date > existing.start_date and self.end_date < existing.end_date:
+                raise ValidationError({
+                    'end_date': overlap_msg
+                    })
+            #Days off
+            if existing.end_date - self.start_date >= timedelta(-2) and existing.end_date - self.start_date < timedelta(0):
+                raise ValidationError({
+                    'start_date': _("Veuillez laisser au moins %(nb_days)s jours apres la fin de l'exposition %(exposition)s") % {'nb_days': Exposition.DAYS_BETWEEN, 'exposition': existing.title}
+                    })
+            if existing.start_date - self.end_date <= timedelta(1) and existing.start_date - self.end_date > timedelta(0):
+                raise ValidationError({
+                    'start_date': _("Veuillez laisser au moins %(nb_days)s jours avant le début de l'exposition %(exposition)s") % {'nb_days': Exposition.DAYS_BETWEEN, 'exposition': existing.title}
+                    })
 
 
     def __str__(self):
