@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from .models import VisualUser, Tag, Artist, VideoArtwork, ImageArtwork, SoundArtwork, Artwork, Display, Exposition, Task
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from parler.admin import TranslatableAdmin, TranslatableModelForm
 from tinymce.widgets import TinyMCE
 from django.utils.translation import ugettext_lazy as _
@@ -75,7 +75,6 @@ class VisualUserInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural=_('Informations Complémentaires')
 
-# @TODO Insert Basic group & user data.
 class UserAdmin(BaseUserAdmin):
     inlines = []
     list_display = ('username', 'last_name', 'first_name', 'email', 'last_login' )
@@ -458,12 +457,92 @@ class ExpositionAdmin(TranslatableAdmin):
 admin.site.register(Exposition, ExpositionAdmin)
 admin.site.register(Display)
 
-# @TODO Add filters
+# Filters : Par Date : Passées, En Cours, A Venir
+# Par statut : Terminées, Non Terminées, En retard
+class TaskDateListFilter(admin.SimpleListFilter):
+    """
+    Set a custom filter for task by date
+    """
+    # Translators : Filter for exposition in admin interface
+    title = _('Date')
+
+    parameter_name = 'date'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar
+        """
+        return (
+            ('past', _('Passées')),
+            ('present', ('En cours')),
+            ('future', ('A Venir')),
+        )
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        now = datetime.now()
+
+        if self.value() == 'past':
+            return queryset.filter(end_date__lt=now)
+        if self.value() == 'present':
+            return queryset.filter(start_date__lte=now).filter(end_date__gte=now)
+        if self.value() == 'future':
+            return queryset.filter(start_date__gt=now)
+
+class TaskStatusListFilter(admin.SimpleListFilter):
+    """
+    Set a custom filter for task by status
+    """
+    # Translators : Filter for exposition in admin interface
+    title = _('Etat')
+
+    parameter_name = 'status'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar
+        """
+        return (
+            ('late', ('En retard')),
+            ('current', ('En cours')),
+            ('finished', _('Terminées')),
+        )
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        now = datetime.now()
+
+        if self.value() == 'late':
+            return queryset.filter(end_date__lt=now).filter(is_completed__exact=False)
+        if self.value() == 'current':
+            return queryset.filter(start_date__lte=now).filter(end_date__gte=now).filter(is_completed__exact=False)
+        if self.value() == 'finished':
+            return queryset.filter(is_completed__exact=True)
+
+
 class TaskAdmin(ImproveRawIdFieldsForm):
-     raw_id_fields = ("exposition","users",)
-     fields = ('name', 'exposition', 'users', 'start_date', 'end_date','is_completed', 'description')
-     search_fields = ('name', 'exposition__translations__title')
-     list_display = ('name', 'exposition', 'get_users', 'start_date', 'end_date', 'is_completed')
+    raw_id_fields = ("exposition","users",)
+    fields = ('name', 'exposition', 'users', 'start_date', 'end_date','is_completed', 'description')
+    search_fields = ('name', 'exposition__translations__title')
+    list_display = ('name', 'exposition', 'get_users', 'start_date', 'end_date', 'is_completed')
+    list_filter = (TaskDateListFilter, TaskStatusListFilter)
+
 
 
 admin.site.register(Task, TaskAdmin)

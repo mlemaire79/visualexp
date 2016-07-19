@@ -246,6 +246,15 @@ class Task(models.Model):
         return ", ".join([u.username for u in self.users.all()])
     get_users.short_description = _("Utilisateurs Assignés")
 
+    def clean(self):
+        """
+        Start date sould be before end date
+        """
+        if self.start_date > self.end_date:
+            raise ValidationError({
+                'end_date':_('La date de fin doit etre postérieure à la date de début.'),
+                'start_date': _('La date de début doit etre antérieure à la date de fin.')})
+
     class Meta:
         # Translators: Model name for Task(s)
         verbose_name = _('Tâche')
