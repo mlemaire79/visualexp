@@ -272,3 +272,6 @@ PIPELINE = {
 # https://docs.djangoproject.com/en/1.9/ref/models/fields/#filefield
 MEDIA_ROOT = '/var/visualexp/media/'
 MEDIA_URL = '/media/'
+
+#ADMIN_TOOLS_INDEX_DASHBOARD = 'visualexp.dashboard.CustomIndexDashboard'
+#ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'visualexp.dashboard.CustomAppIndexDashboard'
