@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^admin/manage/displays/$', ExpoListView.as_view()),
     url(r'^admin/', admin.site.urls),
     url(r'^artwork/$', ArtworkList.as_view()),
-    url(r'^$', Admin.as_view()),
+    url(r'^$', admin.site.urls),
     url(r'^bootstrap/$', ArtworkTest.as_view()),
     url(r'^admin_tools/', include('admin_tools.urls')),
 ]
