@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load pipeline %}
+{% load i18n %}
 <head>
 	<meta charset="UTF-8">
 	<title>{% block title %}{% endblock %}</title>
@@ -13,7 +14,7 @@
 				<div class="container-fluid">
 					
 					<div class="navbar-header">
-						<a class="navbar-brand" href="#">Accueil</a>
+						<a class="navbar-brand" href="#">{% trans "Accueil" %}</a>
 					</div>
 
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -26,16 +27,16 @@
 			</nav>
 		</header>
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-col-xs-12 col-md-12 col-lg-12">
 			</div>
 		</div>
 		<section class="row">
-			<div class="col-md-12">
+			<div class="col-col-xs-12 col-md-12 col-lg-12">
 				{% block content %}{% endblock %}
 			</div>
 		</section>
 		<footer class="row">
-			<div class="col-md-12">
+			<div class="col-col-xs-12 col-md-12 col-lg-12">
 				<!-- @TODO footer informations -->
 			</div>
 		</footer>
