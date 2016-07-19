@@ -20,12 +20,14 @@ from django.contrib import admin
 from visualAdmin.views import ArtworkList
 from visualexpcode.views import Admin
 from visualexpcode.views import ArtworkTest
+from django.conf.urls import include
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^artwork/$', ArtworkList.as_view()),
     url(r'^$', Admin.as_view()),
     url(r'^bootstrap/$', ArtworkTest.as_view()),
+    url(r'^admin_tools/', include('admin_tools.urls')),
 ]
 
 if settings.DEBUG:

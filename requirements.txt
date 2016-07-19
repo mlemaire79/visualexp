@@ -33,3 +33,8 @@ django-parler>=1.6.4
 # https://github.com/aljosa/django-tinymce
 # http://django-tinymce.readthedocs.io/en/latest/
 django-tinymce >= 2.3.0
+
+# Admin Tools
+# https://github.com/django-admin-tools/django-admin-tools
+# https://django-admin-tools.readthedocs.io/en/latest/
+django-admin-tools >= 0.7
