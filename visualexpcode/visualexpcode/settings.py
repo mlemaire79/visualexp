@@ -234,7 +234,7 @@ PIPELINE = {
         },
         'default': {
             'source_filenames': (
-                'static/less/project-colors.less',
+                'less/default.less',
             ),
             'output_filename': 'css/default.css',
             'extra_context': {
