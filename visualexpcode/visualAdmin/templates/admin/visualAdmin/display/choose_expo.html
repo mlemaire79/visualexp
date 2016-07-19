@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls admin_static admin_list %}
+<!-- @TODO Finish template -->
+{% block content %}
+	{% if next_expos_list %}
+		<ul>
+			{% for expo in next_expos_list %}
+			<li> {{expo.title}} </li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+{% endblock %}

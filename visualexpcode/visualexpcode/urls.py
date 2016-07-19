@@ -17,12 +17,14 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from visualAdmin.views import ArtworkList
+from visualAdmin.views.views import ArtworkList
+from visualAdmin.views.admin.display import ExpoListView
 from visualexpcode.views import Admin
 from visualexpcode.views import ArtworkTest
 from django.conf.urls import include
 
 urlpatterns = [
+    url(r'^admin/manage/displays/$', ExpoListView.as_view()),
     url(r'^admin/', admin.site.urls),
     url(r'^artwork/$', ArtworkList.as_view()),
     url(r'^$', Admin.as_view()),
