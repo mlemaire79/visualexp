@@ -216,16 +216,18 @@ PIPELINE = {
         '/usr/local/bin/lessc',
     },
     'LESS_ARGUMENTS': {
-        u'--include-path={}'.format(os.pathsep.join([bootstrap_less, visualexp_less])),
+        u'--include-path={}'.
+        format(os.pathsep.join([bootstrap_less, visualexp_less])),
     },
     'YUGLIFY_BINARY': {
         '/usr/local/bin/yuglify',
     },
     'STYLESHEETS': {
         'bootstrap': {
-            'source_filenames': (
-              'twitter_bootstrap/less/bootstrap.less',
-             ),
+            'source_filenames':
+            (
+                'twitter_bootstrap/less/bootstrap.less',
+            ),
             'output_filename': 'css/b.css',
             'extra_context': {
                 'media': 'screen,projection',
@@ -263,14 +265,11 @@ PIPELINE = {
     },
 }
 
-
-
-
 # User Uploaded Content ( For artworks )
 # https://docs.djangoproject.com/en/1.9/ref/settings/#std:setting-MEDIA_ROOT
 # https://docs.djangoproject.com/en/1.9/ref/models/fields/#filefield
 MEDIA_ROOT = '/var/visualexp/media/'
 MEDIA_URL = '/media/'
 
-#ADMIN_TOOLS_INDEX_DASHBOARD = 'visualexp.dashboard.CustomIndexDashboard'
-#ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'visualexp.dashboard.CustomAppIndexDashboard'
+# ADMIN_TOOLS_INDEX_DASHBOARD = 'visualexp.dashboard.CustomIndexDashboard'
+# ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'visualexp.dashboard.CustomAppIndexDashboard'

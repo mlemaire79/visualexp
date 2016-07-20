@@ -1,12 +1,34 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls admin_static admin_list %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}{{ block.super }}{% endblock %}
 <!-- @TODO Finish template -->
 {% block content %}
-	{% if next_expos_list %}
-		<ul>
-			{% for expo in next_expos_list %}
-			<li> {{expo.title}} </li>
-			{% endfor %}
-		</ul>
-	{% endif %}
+	<div id="content-main">
+		
+		{% if next_expos_list %}
+			<ul>
+				{% for expo in next_expos_list %}
+				<li> <a href="{% url 'manage-expo' expo.expo_id %}">{{expo.title}} </a></li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
 {% endblock %}

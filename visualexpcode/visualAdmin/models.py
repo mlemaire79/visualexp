@@ -239,8 +239,8 @@ class Display(TranslatableModel):
         description = models.TextField(_("Description")),
     )
     #@TODO add location of the artwork
-    nbViews = models.IntegerField(default=0, verbose_name=_("Nombre de vues"))
-    deliveryTime = models.TimeField(blank=True,null=True, verbose_name=_("Date de livraison"))
+    nb_views = models.IntegerField(default=0, verbose_name=_("Nombre de vues"))
+    delivery_time = models.TimeField(blank=True,null=True, verbose_name=_("Date de livraison"))
     hasArrived = models.BooleanField(default=False, verbose_name=_("Arrivée"))
 
     def __str__(self):
