@@ -34,9 +34,7 @@
 		</div>
 		<section class="row">
 			<div class="col-col-xs-12 col-md-12 col-lg-12">
-				{% cache 500 content %}
-					{% block content %}{% endblock %}
-				{% endcache %}
+				{% block content %}{% endblock %}
 			</div>
 		</section>
 		<footer class="row" id="footer">
