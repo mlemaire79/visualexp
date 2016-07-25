@@ -29,10 +29,9 @@ urlpatterns = [
         ExpoManageDisplays.as_view(), name="manage-expo"),
     url(r'^admin/', admin.site.urls),
     url(r'^artwork/$', ArtworkList.as_view()),
-    url(r'^$', admin.site.urls),
-    url(r'^homepage/', main.Homepage.as_view()),
-    url(r'^current_expo/', main.Current.as_view()),
-    url(r'^listing_art/', main.Listing.as_view()),
+    url(r'^$', main.Homepage.as_view()),
+    url(r'^current_expo', main.Current.as_view()),
+    url(r'^listing_art', main.Listing.as_view()),
     url(r'^admin_tools/', include('admin_tools.urls')),
 ]
 
