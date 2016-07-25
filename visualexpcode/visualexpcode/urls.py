@@ -18,15 +18,16 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from visualAdmin.views import ArtworkList
-from visualexpcode.views import Admin
-from visualexpcode.views import ArtworkTest
+from visualexpcode.views import main
 from django.conf.urls import include
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^artwork/$', ArtworkList.as_view()),
     url(r'^$', admin.site.urls),
-    url(r'^bootstrap/$', ArtworkTest.as_view()),
+    url(r'^homepage/', main.Homepage.as_view()),
+    url(r'^current_expo/', main.Current.as_view()),
+    url(r'^listing_art/', main.Listing.as_view()),
     url(r'^admin_tools/', include('admin_tools.urls')),
 ]
 
