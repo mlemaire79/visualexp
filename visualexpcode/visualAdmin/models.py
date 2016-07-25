@@ -174,6 +174,7 @@ class Exposition(TranslatableModel):
     start_date = models.DateField(verbose_name=_("Début de l'exposition"))
     end_date = models.DateField(verbose_name=_("Fin de l'exposition"))
     artworks = models.ManyToManyField(Artwork, through='Display')
+    image = models.ImageField(blank = True, null= True, upload_to='image/', verbose_name=_("Affiche de l'Exposition"))
 
     def clean(self):
         """
@@ -238,7 +239,7 @@ class Display(TranslatableModel):
     translations = TranslatedFields(
         description = models.TextField(_("Description")),
     )
-    #@TODO add location of the artwork
+    position = models.IntegerField(default=1, verbose_name=_("Emplacement"))
     nb_views = models.IntegerField(default=0, verbose_name=_("Nombre de vues"))
     delivery_time = models.TimeField(blank=True,null=True, verbose_name=_("Date de livraison"))
     hasArrived = models.BooleanField(default=False, verbose_name=_("Arrivée"))
