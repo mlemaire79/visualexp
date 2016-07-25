@@ -17,11 +17,17 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from visualAdmin.views import ArtworkList
 from visualexpcode.views import main
+from visualAdmin.views.views import ArtworkList
+from visualAdmin.views.admin.display import ExpoListView, ExpoManageDisplays
+from visualexpcode.views import Admin
 from django.conf.urls import include
 
 urlpatterns = [
+    # Custom admin pages
+    url(r'^admin/manage/expositions/$', ExpoListView.as_view()),
+    url(r'^admin/manage/expositions/(?P<exposition>[0-9]+)/$',
+        ExpoManageDisplays.as_view(), name="manage-expo"),
     url(r'^admin/', admin.site.urls),
     url(r'^artwork/$', ArtworkList.as_view()),
     url(r'^$', admin.site.urls),
