@@ -9,8 +9,12 @@ from django.views.decorators.cache import cache_page
 class Homepage(View):
 
     def get(self, request):
+        current_expo = Exposition.get_current()
+        context = {
+            'current_expo': current_expo,
+        }
         template = loader.get_template('extends/homepage.html')
-        return HttpResponse(template.render(request))
+        return HttpResponse(template.render(context, request))
 
 class Current(View):
 
