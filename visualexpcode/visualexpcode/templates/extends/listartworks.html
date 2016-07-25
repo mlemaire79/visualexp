@@ -4,7 +4,11 @@
 {% block title %}{% trans "Liste des oeuvres" %}{% endblock %}
 {% block content %}
 <div class="col-xs-12 col-md-12 col-lg-12" id="list_artworks">
-    <!-- @TODO listing des oeuvres -->
-    Test
+    <h1>{% trans "Liste des oeuvres de l'exposition en cours :" %}</h1>
+    <ul>
+        {% for artwork in current_expo.artworks.all %}
+            <li>{{ artwork.title }}</li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

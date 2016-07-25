@@ -227,6 +227,16 @@ class Exposition(TranslatableModel):
     def __str__(self):
         return self.title
 
+    def get_current(): 
+        expo = Exposition.objects.all()
+        Exposition.objects.order_by('end_date')
+        today = date.today()
+        for existing in expo:
+            if today >= existing.start_date and today <= existing.end_date:
+                return existing
+            if today < existing.start_date:
+                return existing
+
     class Meta:
         # Translators: Model name for Exposition(s)
         verbose_name = _('Exposition')
