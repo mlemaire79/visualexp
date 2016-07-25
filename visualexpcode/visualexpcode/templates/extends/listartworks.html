@@ -4,7 +4,7 @@
 {% block title %}{% trans "Liste des oeuvres" %}{% endblock %}
 {% block content %}
 <div class="col-xs-12 col-md-12 col-lg-12" id="list_artworks">
-    <h1>{% trans "Liste des oeuvres de l'exposition en cours :" %}</h1>
+    <h1 class="yellow-titles">{% trans "Liste des oeuvres de l'exposition en cours :" %}</h1>
     <ul>
         {% for artwork in current_expo.artworks.all %}
             <li>{{ artwork.title }}</li>

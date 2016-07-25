@@ -1,4 +1,30 @@
-@import "navbar.less";
+@import "project-colors";
+
+body {
+    background: @bColor-bg;
+    color: @bColor-font;
+}
+
+#navbar {
+    background: @rColor-entity;
+    color: @rColor-font-entity;
+    border: none;
+}
+
+#navbar a {
+    color: @rColor-font-entity;
+}
+    #navbar a:link {
+        color: @rColor-font-entity;
+    }
+
+    #navbar a:hover {
+        color: @rColor-hover-entity;
+    }
+
+.yellow-titles {
+    color: @yColor-font;
+}
 
 #short_desc {
     height: 40px;
