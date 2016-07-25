@@ -4,14 +4,16 @@ from django.http import HttpResponse
 from django.views.generic import View
 from django.views.generic import ListView
 from visualAdmin.models import Exposition
-from django.views.decorators.cache import cache_page
+from datetime import date
 
 class Homepage(View):
 
     def get(self, request):
         current_expo = Exposition.get_current()
+        time = date.today()
         context = {
             'current_expo': current_expo,
+            'time': time,
         }
         template = loader.get_template('extends/homepage.html')
         return HttpResponse(template.render(context, request))
