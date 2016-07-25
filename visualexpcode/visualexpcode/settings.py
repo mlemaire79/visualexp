@@ -271,5 +271,5 @@ PIPELINE = {
 MEDIA_ROOT = '/var/visualexp/media/'
 MEDIA_URL = '/media/'
 
-# ADMIN_TOOLS_INDEX_DASHBOARD = 'visualexp.dashboard.CustomIndexDashboard'
-# ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'visualexp.dashboard.CustomAppIndexDashboard'
+ADMIN_TOOLS_INDEX_DASHBOARD = 'visualAdmin.dashboard.CustomIndexDashboard'
+ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'visualAdmin.dashboard.CustomAppIndexDashboard'
