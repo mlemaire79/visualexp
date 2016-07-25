@@ -20,7 +20,6 @@ from django.contrib import admin
 from visualexpcode.views import main
 from visualAdmin.views.views import ArtworkList
 from visualAdmin.views.admin.display import ExpoListView, ExpoManageDisplays
-from visualexpcode.views import Admin
 from django.conf.urls import include
 
 urlpatterns = [
