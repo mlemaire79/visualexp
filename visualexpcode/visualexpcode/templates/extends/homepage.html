@@ -10,7 +10,10 @@
 </div>
 <div class="col-xs-12 col-md-12 col-lg-12" id="current_expo">
     <img src="" alt="" style="">
-    <p><!-- @TODO résumé court de l'expo --></p>
-    <button type="button" class="btn btn-default">{% trans "Lire la suite..." %}</button>
+    <h1>{{ current_expo.title }}</h1>
+    <div id="short_desc">
+        {{ current_expo.description|safe }}
+    </div>
+    <a href="/current_expo"><button type="button" class="btn btn-default">{% trans "Lire la suite..." %}</button></a>
 </div>
 {% endblock %}
