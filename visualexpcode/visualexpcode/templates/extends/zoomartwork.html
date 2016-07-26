@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load pipeline %}
+{% load i18n %}
+{% block title %}{% trans "Oeuvre demandée" %}{% endblock %}
+{% block content %}
+<div class="panel panel-warning" id="zoom_artwork">
+    <div class="panel-heading">{{ qr_artwork.title }}</div>
+    <div class="panel-body">
+        {% if qr_artwork.get_type == "Image" %}
+            <img src="{{ MEDIA_URL }}{{ qr_artwork.file }}" height="320px">
+        {% elif qr_artwork.get_type == "Vidéo" %}
+            <div class="col-xs-12 col-md-7 col-lg-7">
+                <div class="embed-responsive embed-responsive-4by3">
+                    <video class="embed-responsive-item" controls><source src="{{ MEDIA_URL }}{{ qr_artwork.file }}"></video>
+                </div>
+            </div>
+        {% elif qr_artwork.get_type == "Son"}
+            <div class="col-xs-12 col-md-7 col-lg-7">
+                <div class="embed-responsive embed-responsive-4by3">
+                    <audio class="embed-responsive-item" controls><source src="{{ MEDIA_URL }}{{ qr_artwork.file }}"></audio>
+                </div>
+            </div>
+        {% endif %}
+        <hr>
+        <u>{% trans "Date de publication" %}</u> : {{ qr_artwork.publication_date }}, <u>{% trans "Artiste" %}</u> : {{ qr_artwork.artist }}
+        <br/>
+        {{ qr_artwork.description }}
+        <br/>
+    </div>
+    <div class="panel-footer">{% trans "Catégorie(s)" %} : {% for tag in qr_artwork.tags.all %}<span>{{ tag.name }}; </span>{% endfor %}</div>
+</div>
+{% endblock %}

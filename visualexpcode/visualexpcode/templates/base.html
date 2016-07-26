@@ -23,6 +23,19 @@
 						<ul class="nav navbar-nav">
 							{% include "includes/nav-menu.html" %}																				
 						</ul>
+
+						<div class="btn-group" id="languages">
+							<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Langue <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">{% trans "Français" %}</a></li>
+								<li><a href="#">{% trans "Anglais" %}</a></li>
+								<li><a href="#">{% trans "Allemand" %}</a></li>
+								<li><a href="#">{% trans "Russe" %}</a></li>
+								<li><a href="#">{% trans "Chinois" %}</a></li>
+							</ul>
+						</div>
 					</div><!-- navbar-collapse -->
 
 				</div><!-- container-fluid -->
