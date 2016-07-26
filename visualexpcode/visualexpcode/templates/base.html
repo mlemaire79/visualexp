@@ -11,6 +11,7 @@
 </head>
 <body>
 	<div class="container-fluid">
+		<div class="page-wrap">
 		<header class="row">
 			<nav class="navbar navbar-default" id="navbar">
 				<div class="container-fluid">
@@ -41,20 +42,19 @@
 				</div><!-- container-fluid -->
 			</nav>
 		</header>
-		<div class="row">
-			<div class="col-col-xs-12 col-md-12 col-lg-12">
-			</div>
-		</div>
 		<section class="row">
 			<div class="col-col-xs-12 col-md-12 col-lg-12">
 				{% block content %}{% endblock %}
 			</div>
 		</section>
-		<footer class="row" id="footer">
-			<div class="col-col-xs-12 col-md-12 col-lg-12">
-				<span id="powered">{% trans "Propulsé par Django & VisualExp" %}</span>
-			</div>
-		</footer>
+		</div>
+		<div class="site-footer">
+			<footer class="row">
+				<div class="col-col-xs-12 col-md-12 col-lg-12">
+					<span id="powered">{% trans "Propulsé par Django & VisualExp" %}</span>
+				</div>
+			</footer>
+		</div>
 	</div>
 
 	{% javascript 'bootstrap' %}

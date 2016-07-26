@@ -3,12 +3,25 @@
 {% load i18n %}
 {% block title %}{% trans "Liste des oeuvres" %}{% endblock %}
 {% block content %}
-<div class="col-xs-12 col-md-12 col-lg-12" id="list_artworks">
-    <h1 class="yellow-titles">{% trans "Liste des oeuvres de l'exposition en cours :" %}</h1>
-    <ul>
-        {% for artwork in current_expo.artworks.all %}
-            <li>{{ artwork.title }}</li>
-        {% endfor %}
-    </ul>
+<div class="panel panel-warning" id="list_artworks">
+    <div class="panel-heading">Oeuvres de l'exposition, {{ current_expo.title }}</div>
+    <div class="panel-body">
+        <div class="list-group">
+            {% for artwork in current_expo.artworks.all %}
+                {% if artwork.get_type == "Image" %}
+                    <a href="#" class="col-xs-12 col-md-4 col-lg-3 list-group-item list_img">
+                {% elif artwork.get_type == "Vidéo" %}
+                    <a href="#" class="col-xs-12 col-md-4 col-lg-3 list-group-item list_video">
+                {% elif artwork.get_type == "Son" %}
+                    <a href="#" class="col-xs-12 col-md-4 col-lg-3 list-group-item list_sound">
+                {% endif %}
+                        <h3 class="list-group-item-heading">{{ artwork.title }}</h3>
+                        <p class="list-group-item-text">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </p>
+                    </a>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}

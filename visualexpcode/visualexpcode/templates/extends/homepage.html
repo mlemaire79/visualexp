@@ -3,18 +3,26 @@
 {% load i18n %}
 {% block title %}{% trans "Accueil" %}{% endblock %}
 {% block content %}
-<div class="col-xs-12 col-md-12 col-lg-12 alert alert-warning" role="alert">
-    <p>
-        {% trans "Bienvenue sur" %} Grand Angle, {% trans "nous sommes le" %} {{ time }}
-    </p>
+<div class="col-xs-12 col-md-12 col-lg-12 alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {% trans "Bienvenue sur" %} Grand Angle, {% trans "nous sommes le" %} {{ time }}
 </div>
-<div class="col-xs-12 col-md-12 col-lg-12" id="current_expo">
-    <img src="" alt="" style="">
-    <h1 class="yellow-titles">{{ current_expo.title }}</h1>
-    <div id="short_desc">
-        {{ current_expo.description|safe }}
+<div class="row"></div>
+<div class="panel panel-warning" id="current_expo">
+    <div class="panel-heading">{{ current_expo.title }} - {{ current_expo.start_date }}, {{ current_expo.end_date }}</div>
+    <div class="panel-body">
+        <div id="short_desc">
+            {{ current_expo.description|safe }}
+        </div>
+        ...
+        <br/>
+        <a href="/current_expo">
+            <button type="button" class="btn btn-warning">
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> {% trans 'Lire la suite' %}
+            </button>
+        </a>
     </div>
-    <br/>
-    <a href="/current_expo"><button type="button" class="btn btn-warning">{% trans "Lire la suite..." %}</button></a>
 </div>
 {% endblock %}

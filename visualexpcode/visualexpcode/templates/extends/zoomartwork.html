@@ -4,7 +4,7 @@
 {% block title %}{% trans "Oeuvre demandée" %}{% endblock %}
 {% block content %}
 <div class="panel panel-warning" id="zoom_artwork">
-    <div class="panel-heading">{{ qr_artwork.title }}</div>
+    <div class="panel-heading">{{ qr_artwork.title }} - Vues <span class="badge">{{ qr_display.nb_views }}</span></div>
     <div class="panel-body">
         {% if qr_artwork.get_type == "Image" %}
             <img src="{{ MEDIA_URL }}{{ qr_artwork.file }}" height="320px">

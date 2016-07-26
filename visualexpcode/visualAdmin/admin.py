@@ -1,4 +1,5 @@
 # @TODO Fix Imports ( que bordel !)
+# @TODO Sur l'admin lorsque l'on ajoute une oeuvre on a toujours "Infos Oeuvre Sonore"
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
