@@ -16,6 +16,8 @@ from django.core.urlresolvers import reverse
 from admin_tools.dashboard import modules, Dashboard, AppIndexDashboard
 from admin_tools.utils import get_admin_site_name
 
+from visualAdmin.models import Exposition, Display
+from datetime import date, timedelta
 
 class CustomIndexDashboard(Dashboard):
     """
@@ -72,39 +74,31 @@ class CustomIndexDashboard(Dashboard):
             _('Alertes'),
             draggable=False,
             deletable=False,
-            children=[
-                [_('Test'), '/'],
-            ]
+            children=self.get_alerts()
         ))
 
-        # append a feed module
-        # self.children.append(modules.Feed(
-        #     _('Latest Django News'),
-        #     feed_url='http://www.djangoproject.com/rss/weblog/',
-        #     limit=5
-        # ))
+    # @TODO Find out how to change alert colors 
+    def get_alerts(self):
+        """
+        create alert list for artworks that have not
+        been delivered 1 week before exposition start
+        """
+        alert_list = []
+        alert_date = date.today() + timedelta(7)
+        soon_expos = Exposition.objects.filter(start_date__lte=alert_date).filter(end_date__gte=date.today())
+        
+        for expo in soon_expos:
 
-        # append another link list module for "support".
-        #self.children.append(modules.LinkList(
-        #    _('Support'),
-        #    children=[
-        #        {
-        #            'title': _('Django documentation'),
-        #            'url': 'http://docs.djangoproject.com/',
-        #            'external': True,
-        #        },
-        #        {
-        #            'title': _('Django "django-users" mailing list'),
-        #            'url': 'http://groups.google.com/group/django-users',
-        #            'external': True,
-        #        },
-        #        {
-        #            'title': _('Django irc channel'),
-        #            'url': 'irc://irc.freenode.net/django',
-        #            'external': True,
-        #        },
-        #    ]
-        #))
+            missing_displays = Display.objects.filter(exposition=expo).filter(has_arrived=False)
+            for display in missing_displays:
+                classification = ""
+                if(expo.start_date - date.today() <= timedelta(2)):
+                    classification = "URGENT : "
+                msg = classification+"L'oeuvre "+display.artwork.title+" pour l'exposition "+expo.title+" n'est pas encore arrivée."
+                url = "manage/expositions/"+str(expo.expo_id)
+                alert_list.append([_(msg), url])
+
+        return alert_list
 
 
 class CustomAppIndexDashboard(AppIndexDashboard):

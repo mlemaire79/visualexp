@@ -5,7 +5,6 @@ from itertools import chain
 from datetime import date, timedelta
 from polymorphic.models import PolymorphicModel
 from parler.models import TranslatableModel, TranslatedFields
-#from parler.managers import TranslatableManager
 from .managers import ArtworkManager
 from .validators import validate_sound_file_extension, validate_video_file_extension
 from django.utils.safestring import mark_safe
