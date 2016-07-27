@@ -17,6 +17,22 @@ body {
     height: 100%;
 }
 
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
 .container-fluid {
     height: 100%;
 }
@@ -56,14 +72,30 @@ body {
   display: block;
 }
 
+#page-banner {
+    height: 20%;
+    background: url('../image/img-banner.png') no-repeat;
+    background-position-y: -100px;
+}
+
+    #page-banner #override-banner {
+        height: 30%;
+        width: 57%;
+        background: rgba(0, 0, 0, 0.5);
+        color: @bColor-font;
+        text-shadow: 0px 0px 5px white;
+        vertical-align: middle;
+        padding-left: 1%;
+    }
+
 .panel-warning {
     color: @yColor-font-container;
 }
 
-    #current_expo #short_desc {
-        height: 40px;
-        overflow: hidden;
-    }
+#home_expo #short_desc {
+    height: 40px;
+    overflow: hidden;
+}
 
 #list_artworks .list-group .list-group-item {
     border-style: none;
@@ -75,15 +107,15 @@ body {
 }
 
 #list_artworks .list-group .list_img {
-    background-image: url('../../media/image/img-generic.png');
+    background-image: url('../image/img-generic.png');
 }
 
 #list_artworks .list-group .list_video {
-    background-image: url('../../media/image/video-generic.jpg');
+    background-image: url('../image/video-generic.jpg');
 }
 
 #list_artworks .list-group .list_sound {
-    background-image: url('../../media/image/sound-generic.jpg');
+    background-image: url('../image/sound-generic.jpg');
     background-position: 30px 5px;
 }
 
@@ -122,9 +154,14 @@ body {
     color: @yColor-font-container;
 }
 
-    #zoom_artwork hr {
-        border-color: @yColor-font-container;
-    }
+#map_expo img {
+    max-height: 432px;
+    max-width: 940px;
+}
+
+.tags {
+    float: right;
+}
 
 .container-fluid .page-wrap:after {
   height: 30px; 

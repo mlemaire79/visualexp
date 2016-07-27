@@ -21,6 +21,10 @@ class CustomIndexDashboard(Dashboard):
     """
     Custom index dashboard for visualexpcode.
     """
+
+    template = 'admin/dashboard.html'
+    columns = 3
+
     def init_with_context(self, context):
         site_name = get_admin_site_name(context)
         # append a link list module for "quick links"
@@ -40,18 +44,37 @@ class CustomIndexDashboard(Dashboard):
 
         # append an app list module for "Applications"
         self.children.append(modules.AppList(
-            _('Applications'),
+            _('Gestionnaire du contenu'),
+            draggable=False,
+            deletable=False,
+            collapsible=False,
             exclude=('django.contrib.*',),
         ))
 
         # append an app list module for "Administration"
         self.children.append(modules.AppList(
-            _('Administration'),
+            _('Gestion utilisateurs'),
+            draggable=False,
+            deletable=False,
             models=('django.contrib.*',),
         ))
 
         # append a recent actions module
-        self.children.append(modules.RecentActions(_('Recent Actions'), 5))
+        self.children.append(modules.RecentActions(
+            _('Recent Actions'), 5,
+            draggable=False,
+            deletable=False,
+        ))
+
+        # append an alerts of delivery artworks
+        self.children.append(modules.LinkList(
+            _('Alertes'),
+            draggable=False,
+            deletable=False,
+            children=[
+                [_('Test'), '/'],
+            ]
+        ))
 
         # append a feed module
         # self.children.append(modules.Feed(
@@ -99,7 +122,7 @@ class CustomAppIndexDashboard(AppIndexDashboard):
             modules.ModelList(self.app_title, self.models),
             modules.RecentActions(
                 _('Recent Actions'),
-                include_list=self.get_app_content_types(),
+                include_list=self.models,
                 limit=5
             )
         ]
@@ -108,4 +131,5 @@ class CustomAppIndexDashboard(AppIndexDashboard):
         """
         Use this method if you need to access the request context.
         """
+
         return super(CustomAppIndexDashboard, self).init_with_context(context)
