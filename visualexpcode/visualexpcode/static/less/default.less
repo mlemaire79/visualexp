@@ -1,11 +1,135 @@
-@import "navbar.less";
+@import "project-colors";
 
-#short_desc {
-    height: 40px;
-    overflow: hidden;
+* {
+    transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    margin: 0px;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background: @bColor-bg;
+    color: @bColor-font;
+    height: 100%;
+}
+
+.container-fluid {
+    height: 100%;
+}
+
+#navbar {
+    background: @rColor-entity;
+    color: @rColor-hover-entity;
+    border: none;
+    border-bottom: 1px solid @rColor-hover-entity;
+}
+
+    #navbar a {
+        color: @rColor-hover-entity;
+    }
+
+        #navbar a:link {
+            color: @rColor-hover-entity;
+        }
+
+    #navbar li {
+        font-size: 16px;
+    }
+
+    #navbar #languages {
+        top: 8px;
+        right: 8px;
+        position: absolute;
+    }
+
+.page-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -30px;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+
+.panel-warning {
+    color: @yColor-font-container;
+}
+
+    #current_expo #short_desc {
+        height: 40px;
+        overflow: hidden;
+    }
+
+#list_artworks .list-group .list-group-item {
+    border-style: none;
+    border-radius: 0;
+    height: 200px;
+    margin: 0.1%;
+    color: @yColor-entity;
+    text-shadow: 0px 0px black;
+}
+
+#list_artworks .list-group .list_img {
+    background-image: url('../../media/image/img-generic.png');
+}
+
+#list_artworks .list-group .list_video {
+    background-image: url('../../media/image/video-generic.jpg');
+}
+
+#list_artworks .list-group .list_sound {
+    background-image: url('../../media/image/sound-generic.jpg');
+    background-position: 30px 5px;
+}
+
+    #list_artworks .list-group .list-group-item .list-group-item-heading {
+        color: @yColor-entity;
+        text-shadow: 0px 0px 3px black;
+    }
+
+    #list_artworks .list-group .list-group-item p {
+        display: none;
+    }
+
+        #list_artworks .list-group .list:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        #list_artworks .list-group .list-group-item:hover p {
+            display: inline-block;
+            margin-left: 40%;
+            margin-top: 8%;
+            color: @yColor-entity;
+            text-align: center;
+            text-shadow: 0px 0px 3px black;
+            font-size: 10px;
+        }
+
+        #list_artworks .list-group .list-group-item:hover .list-group-item-heading {
+            color: @yColor-entity;
+        }
+
+        #list_artworks .list-group .list-group-item:hover .glyphicon {
+            font-size: 800%;
+        }
+
+#zoom_artwork {
+    color: @yColor-font-container;
+}
+
+    #zoom_artwork hr {
+        border-color: @yColor-font-container;
+    }
+
+.container-fluid .page-wrap:after {
+  height: 30px; 
 }
 
 #powered {
-    float: right;
     font-size: 10px;
 }
