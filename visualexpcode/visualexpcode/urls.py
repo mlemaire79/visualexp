@@ -32,7 +32,9 @@ urlpatterns = [
     url(r'^$', main.Homepage.as_view()),
     url(r'^current_expo', main.Current.as_view()),
     url(r'^listing_art', main.Listing.as_view()),
-    url(r'^public/artwork/(?P<artwork>[0-9]+)/$', main.ArtworkFlashed.as_view()),
+    url(r'^map_expo', main.Map.as_view()),
+    url(r'^public/artwork/(?P<artwork>[0-9]+)$', main.ArtworkFlashed.as_view()),
+    url(r'^public/artist/(?P<artist>[0-9]+)$', main.ArtistAsked.as_view()),
     url(r'^admin_tools/', include('admin_tools.urls')),
 ]
 

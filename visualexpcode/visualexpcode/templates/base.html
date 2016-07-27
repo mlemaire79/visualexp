@@ -8,6 +8,7 @@
 	<title>{% block title %}{% endblock %}</title>
  	{% stylesheet 'bootstrap' %}
 	{% stylesheet 'default' %}
+	{% block extracss %}{% endblock %}
 </head>
 <body>
 	<div class="container-fluid">
@@ -42,6 +43,11 @@
 				</div><!-- container-fluid -->
 			</nav>
 		</header>
+		<div class="jumbotron" id="page-banner">
+			<div id="override-banner">
+				<h1>Association Grand Angle</h1>
+			</div>
+		</div>
 		<section class="row">
 			<div class="col-col-xs-12 col-md-12 col-lg-12">
 				{% block content %}{% endblock %}
@@ -58,6 +64,6 @@
 	</div>
 
 	{% javascript 'bootstrap' %}
-	
+	{% block extrascript %}{% endblock %}
 </body>
 </html>

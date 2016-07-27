@@ -225,8 +225,7 @@ PIPELINE = {
     },
     'STYLESHEETS': {
         'bootstrap': {
-            'source_filenames':
-            (
+            'source_filenames': (
                 'twitter_bootstrap/less/bootstrap.less',
             ),
             'output_filename': 'css/b.css',
@@ -240,7 +239,16 @@ PIPELINE = {
             ),
             'output_filename': 'css/default.css',
             'extra_context': {
-                'media': 'screen, projection',
+                'media': 'screen,projection',
+            },
+        },
+        'imageMap': {
+            'source_filenames': (
+                'imageMap/imagemap.less',
+            ),
+            'output_filename': 'css/imagemap.css',
+            'extra_context': {
+                'media': 'screen,projection',
             },
         },
     },
@@ -263,6 +271,12 @@ PIPELINE = {
             ),
         'output_filename': 'js/b.js',
         },
+        'rwdImageMaps': {
+            'source_filenames': (
+                'rwdImageMaps/jquery.rwdImageMaps.min.js',
+            ),
+        'output_filename': 'js/rwdImageMaps.min.js',
+        },
     },
 }
 
@@ -274,3 +288,4 @@ MEDIA_URL = '/media/'
 
 ADMIN_TOOLS_INDEX_DASHBOARD = 'visualAdmin.dashboard.CustomIndexDashboard'
 ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'visualAdmin.dashboard.CustomAppIndexDashboard'
+ADMIN_TOOLS_THEMING_CSS = 'css/theming.css'

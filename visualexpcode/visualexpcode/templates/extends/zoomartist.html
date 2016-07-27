@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load pipeline %}
+{% load i18n %}
+{% block title %}{% trans "Artiste demandé" %}{% endblock %}
+{% block content %}
+<div class="panel panel-warning" id="zoom_artist">
+    <div class="panel-heading">{{ asked_artist.first_name }} {{ asked_artist.last_name }}</div>
+    <div class="panel-body">
+        {% if asked_artist.photo %}
+            <div class="col-xs-3 col-md-3 col-lg-3">
+                <img src="{{ MEDIA_URL }}{{ asked_artist.photo }}" height="320">
+            </div>
+        {% endif %}
+        <div>
+            <hr>
+            <u>{% trans "Date de naissance" %}</u> : {{ asked_artist.birth_date }},
+            {% if asked_artist.stage_name %}
+                <u>{% trans "Pseudonyme" %}</u> : {{ asked_artist.stage_name }}
+            {% endif %}
+            <br/>
+            {{ asked_artist.description|safe }}
+            <br/>
+        </div>
+    </div>
+    <div class="panel-footer">
+        {% if back %}
+            <a href="/public/artwork/{{ back }}">
+                <button type="button" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> {% trans 'Retour' %}
+                </button>
+            </a>
+        {% endif %}
+        <span class="tags">{% trans "Mots-clés" %} : {% for tag in asked_artist.tags.all %}<span class="badge">{{ tag.name }}</span> {% endfor %}</span>
+    </div>
+</div>
+{% endblock %}

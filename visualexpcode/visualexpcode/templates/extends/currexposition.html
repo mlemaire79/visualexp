@@ -3,9 +3,29 @@
 {% load i18n %}
 {% block title %}{% trans "Exposition courrante" %}{% endblock %}
 {% block content %}
-<div class="col-xs-12 col-md-12 col-lg-12" id="current_expo">
-    <img src="" alt="" style="">
-    <h1 class="yellow-titles">{{ current_expo.title }}</h1>
-    {{ current_expo.description|safe }}
+<div class="panel panel-warning" id="current_expo">
+    <div class="panel-heading">{{ current_expo.title }} - {{ current_expo.start_date }}, {{ current_expo.end_date }}</div>
+    <div class="panel-body">
+        {% if current_expo.image %}
+            <div class="col-xs-3 col-md-3 col-lg-3">
+                <img src="{{ MEDIA_URL }}{{ current_expo.image }}" height="320">
+            </div>
+        {% endif %}
+        <div>
+            {{ current_expo.description|safe }}
+        </div>
+    </div>
+    <div class="panel-footer">
+        <a href="/listing_art">
+            <button type="button" class="btn btn-warning">
+                <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> {% trans 'Voir les oeuvres' %}
+            </button>
+        </a>
+        <a href="/map_expo">
+            <button type="button" class="btn btn-warning">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span> {% trans 'Voir le plan' %}
+            </button>
+        </a>
+    </div>
 </div>
 {% endblock %}
