@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from visualexpcode.views import main
 from visualAdmin.views.views import ArtworkList
-from visualAdmin.views.admin.display import ExpoListView, ExpoManageDisplays
+from visualAdmin.views.admin.display import ExpoListView, ExpoManageDisplays, DisplayDeleteView
 from django.conf.urls import include
 
 urlpatterns = [
@@ -27,12 +27,13 @@ urlpatterns = [
     url(r'^admin/manage/expositions/$', ExpoListView.as_view()),
     url(r'^admin/manage/expositions/(?P<exposition>[0-9]+)/$',
         ExpoManageDisplays.as_view(), name="manage-expo"),
+    url(r'^admin/manage/expositions/(?P<exposition>[0-9]+)/delete_display/(?P<pk>[0-9]+)/$', DisplayDeleteView.as_view(), name='delete-display'),
     url(r'^admin/', admin.site.urls),
     url(r'^artwork/$', ArtworkList.as_view()),
     url(r'^$', main.Homepage.as_view()),
     url(r'^current_expo', main.Current.as_view()),
     url(r'^listing_art', main.Listing.as_view()),
-    url(r'^public/artwork/(?P<artwork>[0-9]+)/$', main.ArtworkFlashed.as_view()),
+    url(r'^public/artwork/(?P<artwork>[0-9]+)/$', main.ArtworkFlashed.as_view(), name='public-artwork'),
     url(r'^admin_tools/', include('admin_tools.urls')),
 ]
 

@@ -223,7 +223,7 @@ class VideoArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin, ImproveRa
     raw_id_fields = ("tags",)
     base_fieldsets = (
         [
-            _('Infos Oeuvre Sonore'),
+            _('Infos Oeuvre Vidéo'),
             {'fields':['title', 'artist', 'file']}
         ],
         [
@@ -255,7 +255,7 @@ class ImageArtworkAdmin(TranslatableAdmin, PolymorphicChildModelAdmin, ImproveRa
     raw_id_fields = ('tags',)
     base_fieldsets = (
     [
-        _('Infos Oeuvre Sonore'),
+        _('Infos Oeuvre Image'),
         {'fields':['title', 'artist', 'file']}
     ],
     [

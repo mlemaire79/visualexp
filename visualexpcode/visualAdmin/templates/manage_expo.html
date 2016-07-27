@@ -1,36 +1,47 @@
+{# @TODO CEDRIK - Templating ( Merci ma biche :p ) #}
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls admin_static admin_list %}
-
-{% block extrastyle %}
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'parler/admin/parler_admin.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'parler/admin/parler_admin_flat.css' %}" />
+{% load qr_tags %}
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {{ media.css }}
 {% endblock %}
 
-{% block extrahead %}{{ block.super }}
-<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
-<script type="text/javascript" src="{% static 'js/tabs.js' %}"></script>
-<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
-<script type="text/javascript" src="{% static 'admin/js/prepopulate.min.js' %}"></script>
-
+{% block extrahead %}
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript" src="{% static "admin/js/core.js" %}"></script>
+<script type="text/javascript" src="{% static "admin/js/vendor/jquery/jquery.min.js" %}"></script>
+<script type="text/javascript" src="{% static "admin/js/jquery.init.js" %}"></script>
+<script type="text/javascript" src="{% static "admin/js/admin/RelatedObjectLookups.js" %}"></script>
+<script type="text/javascript" src="{% static "admin/js/actions.min.js" %}"></script>
 {% endblock %}
-
-
 
 {% block content %}
-{% if language_tabs %}<div class="parler-language-tabs{% if language_tabs.css_class %} {{ language_tabs.css_class }}{% endif %}">
-	{% for url,name,code,status in language_tabs %}
-    {% if status == 'current' %}
-      <input type="hidden" class="language_button selected" name="{{ code }}" />
-      <span class="current">{{ name }}{% if language_tabs.current_is_translated and language_tabs.allow_deletion %}<a class="deletelink" href="./delete-translation/{{ code }}/" title="{% trans 'Delete Translation' %}">&nbsp;</a>{% endif %}</span>
-    {% else %}
-      <span class="{{ status }}"><a href="{{ url }}">{{ name }}</a> {% if status == 'available' and language_tabs.allow_deletion %}<a class="deletelink" href="./delete-translation/{{ code }}/" title="{% trans 'Delete Translation' %}">&nbsp;</a>{% endif %}</span>
-    {% endif %}
-  {% endfor %}
-</div>{% endif %}
+{% if display_list %}
+ {% for display in display_list %}
+    {{ display.position}}
+    {{ display.artwork.title }}
+    {{ display.has_arrived}}
+    <p>{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{% url 'public-artwork' display.artwork.artwork_id %}</p>
+    {% qr_from_text "public/artwork/{{display.artwork.artwork_id}}/" %}
+    {# @TODO Afficher un truc propre pour le boolean #}
+    {# @TODO Afficher le qr-code #}
+<form action="delete_display/{{ display.pk }}/" method="post">
+  {% csrf_token %}
+  {# @TODO Templater le bouton, on voit rien ! #}
+  <button class="btn-sm">{% trans supprimer %}</button>
+</form>
+ {% endfor %}
+{% endif %}
 <form action="" method="post">
 	{% csrf_token %}
 	{{ form }}
-	<input type="submit" value="submit"></input>
+	<input type="submit" value="{% trans 'Ajouter' %}"></input>
 </form>
+
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

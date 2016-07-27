@@ -243,16 +243,12 @@ class Exposition(TranslatableModel):
         verbose_name = _('Exposition')
         verbose_name_plural = _('Expositions')
 
-class Display(TranslatableModel):
-    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
-    exposition = models.ForeignKey(Exposition, on_delete=models.CASCADE)
-    translations = TranslatedFields(
-        description = models.TextField(_("Description")),
-    )
+class Display(models.Model):
+    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, verbose_name=_("Oeuvre"))
+    exposition = models.ForeignKey(Exposition, on_delete=models.CASCADE, verbose_name=_("Exposition"))
     position = models.IntegerField(default=1, verbose_name=_("Emplacement"))
-    nb_views = models.IntegerField(default=0, verbose_name=_("Nombre de vues"))
-    delivery_time = models.TimeField(blank=True,null=True, verbose_name=_("Date de livraison"))
-    hasArrived = models.BooleanField(default=False, verbose_name=_("Arrivée"))
+    nb_views = models.IntegerField(default=0, verbose_name=_("Nombre de consultations"))
+    has_arrived = models.BooleanField(default=False, verbose_name=_("Livrée"))
 
     def __str__(self):
         return self.exposition.__str__() + " - " + self.artwork.__str__()
