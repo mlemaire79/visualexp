@@ -35,6 +35,7 @@ class CustomIndexDashboard(Dashboard):
             deletable=False,
             collapsible=False,
             children=[
+                [_("Gestion des Expositions"), "manage/expositions/"],
                 [_('Return to site'), '/'],
                 [_('Change password'),
                  reverse('%s:password_change' % site_name)],

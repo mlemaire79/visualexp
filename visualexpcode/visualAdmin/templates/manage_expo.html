@@ -3,6 +3,7 @@
 {% load i18n admin_urls admin_static admin_list %}
 {% load staticfiles %}
 {% load qr_tags %}
+{% load visual_extras %}
 {% block extrastyle %}
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
@@ -19,15 +20,19 @@
 {% endblock %}
 
 {% block content %}
+<h2>Exposition : {{ exposition.title }}</h2>
+{# @TODO Afficher le plan pour reperage visuel #}
 {% if display_list %}
  {% for display in display_list %}
     {{ display.position}}
     {{ display.artwork.title }}
     {{ display.has_arrived}}
-    <p>{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{% url 'public-artwork' display.artwork.artwork_id %}</p>
-    {% qr_from_text "public/artwork/{{display.artwork.artwork_id}}/" %}
+    {% url 'public-artwork' display.artwork.artwork_id as artwork_url %}
+    {% with qr_url="http://"|addstr:request.get_host|addstr:artwork_url %}
+
+    {% qr_from_text qr_url %}
+{% endwith %}    
     {# @TODO Afficher un truc propre pour le boolean #}
-    {# @TODO Afficher le qr-code #}
 <form action="delete_display/{{ display.pk }}/" method="post">
   {% csrf_token %}
   {# @TODO Templater le bouton, on voit rien ! #}
