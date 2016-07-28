@@ -16,8 +16,8 @@ from django.core.urlresolvers import reverse
 from admin_tools.dashboard import modules, Dashboard, AppIndexDashboard
 from admin_tools.utils import get_admin_site_name
 
-from visualAdmin.models import Exposition, Display
-from datetime import date, timedelta
+from visualAdmin.models import Exposition, Display, Task
+from datetime import date, timedelta, datetime
 
 class CustomIndexDashboard(Dashboard):
     """
@@ -70,12 +70,36 @@ class CustomIndexDashboard(Dashboard):
         ))
 
         # append an alerts of delivery artworks
-        self.children.append(modules.LinkList(
-            _('Alertes'),
+        self.children.append(modules.Group(
+            title = _('Alertes'),
+            display = 'stacked',
             draggable=False,
             deletable=False,
-            children=self.get_alerts()
+            children=[
+                modules.LinkList(
+                    title = 'Livraisons',
+                    children = self.get_alerts(),
+                ),
+                modules.LinkList(
+                    title = 'Taches',
+                    children = self.get_tasks(context),
+                ),
+            ]
         ))
+         
+    def get_tasks(self, context):
+        task_list = []
+        request = context['request']
+        if request.user.is_authenticated:
+            alert_date = date.today() + timedelta(7)
+
+            user = request.user
+            user_tasks = Task.objects.filter(users__id__contains=user.id).filter(is_completed__exact=False).filter(start_date__lte=alert_date)
+            for task in user_tasks:
+                msg = task.name+ " : "+task.start_date.strftime("%d/%m - %H:%M")
+                url = 'visualAdmin/task/'+str(task.id_task)+'/change'
+                task_list.append([msg, url])
+        return task_list
 
     # @TODO Find out how to change alert colors 
     def get_alerts(self):

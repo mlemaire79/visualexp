@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load pipeline %}
 {% load i18n %}
-{% block title %}{% trans "Oeuvre demandée" %}{% endblock %}
+{% block title %} {{ qr_artwork.title }} {% endblock %}
 {% block content %}
 <div class="panel panel-warning" id="zoom_artwork">
     <div class="panel-heading">{{ qr_artwork.title }} - Consultations <span class="badge">{{ qr_display.nb_views }}</span></div>
