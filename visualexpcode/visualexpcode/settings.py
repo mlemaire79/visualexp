@@ -68,6 +68,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'visualexpcode.middleware.languages.language_cookie.LanguageCookieMiddleware',
 ]
 
 ROOT_URLCONF = 'visualexpcode.urls'
@@ -82,7 +84,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+                'django.template.context_processors.media',
+                'django.core.context_processors.i18n',
             ],
             'loaders': [
                 'admin_tools.template_loaders.Loader',
@@ -155,7 +158,8 @@ LANGUAGES = [
     ('en', _('Anglais')),
     ('de', _('Allemand')),
     ('ru', _('Russe')),
-    ('zh-hans', _('Chinois')),
+    ('zh-hans', _('Chinois (Simplifié)')),
+    ('zh-hant', _('Chinois (Traditionnel)'))
 ]
 
 # @TODO Add missing langs
@@ -166,6 +170,7 @@ PARLER_LANGUAGES = {
         {'code': 'de',},
         {'code': 'ru',},
         {'code': 'zh-hans',},
+        {'code': 'zh-hant'},
     ),
     'default': {
         'fallbacks': ['fr'],          # defaults to PARLER_DEFAULT_LANGUAGE_CODE
@@ -268,6 +273,7 @@ PIPELINE = {
               'twitter_bootstrap/js/collapse.js',
               'twitter_bootstrap/js/carousel.js',
               'twitter_bootstrap/js/affix.js',
+              'js/js-cookie.js',
             ),
         'output_filename': 'js/b.js',
         },

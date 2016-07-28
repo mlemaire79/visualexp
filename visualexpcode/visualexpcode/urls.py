@@ -24,6 +24,7 @@ from django.conf.urls import include
 
 urlpatterns = [
     # Custom admin pages
+    url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^admin/manage/expositions/$', ExpoListView.as_view()),
     url(r'^admin/manage/expositions/(?P<exposition>[0-9]+)/$',
         ExpoManageDisplays.as_view(), name="manage-expo"),

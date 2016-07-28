@@ -3,6 +3,7 @@
 {% load pipeline %}
 {% load i18n %}
 {% load cache %}
+{% load visual_marktags %}
 <head>
 	<meta charset="UTF-8">
 	<title>{% block title %}{% endblock %}</title>
@@ -12,6 +13,33 @@
 </head>
 <body>
 	<div class="container-fluid">
+		{% cookie 'site_language' as lang_cookie_value %}
+		{% if lang_cookie_value == ''%}
+		<div class="modal fade" id="langModal" tabindex="-1" role="dialog" aria-labelledby="langModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="langModalLabel">{% trans "Langue :" %}</h4>
+					</div>
+					<div class="modal-body">
+						<form action="/i18n/setlang/" method="post" style="display: none" id="change_language_form">
+								    {% csrf_token %}
+								    <input type="hidden" value="" name="language" id="language" />
+								</form>
+
+								{% get_language_info_list for LANGUAGES as languages %}
+								{% for language in languages %}
+								    <div class='lang-block'>
+								    <a href="#" lang_code="{{ language.code }}" class="change_language">{{ language.name_local|capfirst }} ({{ language.code }})</a></div>
+								{% endfor %}
+					</div>
+					<div class="modal-footer">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
 		<div class="page-wrap">
 		<header class="row">
 			<nav class="navbar navbar-default" id="navbar">
@@ -30,13 +58,19 @@
 							<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								Langue <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 							</button>
-							<ul class="dropdown-menu">
-								<li><a href="#">{% trans "Français" %}</a></li>
-								<li><a href="#">{% trans "Anglais" %}</a></li>
-								<li><a href="#">{% trans "Allemand" %}</a></li>
-								<li><a href="#">{% trans "Russe" %}</a></li>
-								<li><a href="#">{% trans "Chinois" %}</a></li>
-							</ul>
+							<div class="dropdown-menu">
+								<form action="/i18n/setlang/" method="post" style="display: none" id="change_language_form">
+								    {% csrf_token %}
+								    <input type="hidden" value="" name="language" id="language" />
+								</form>
+
+								{% get_language_info_list for LANGUAGES as languages %}
+								{% for language in languages %}
+								    <div class='lang-block'>
+								    <a href="#" lang_code="{{ language.code }}" class="change_language">{{ language.name_local|capfirst }} ({{ language.code }})</a></div>
+								{% endfor %}
+
+								
 						</div>
 					</div><!-- navbar-collapse -->
 
@@ -45,6 +79,7 @@
 		</header>
 		<div class="jumbotron" id="page-banner">
 			<div id="override-banner">
+			{# @TODO Réduire la taille de la police en petite résolution, le texte sort de la zone d'ombre #}
 				<h1>Association Grand Angle</h1>
 			</div>
 		</div>
@@ -64,6 +99,19 @@
 	</div>
 
 	{% javascript 'bootstrap' %}
+	<script>
+		$(window).load(function()
+		{
+		    $('#langModal').modal('show');
+		});
+	    $('.change_language').click(function(e){
+	        e.preventDefault();
+	        $('#language').val($(this).attr('lang_code'));
+	        Cookies.set('site_language', $(this).attr('lang_code'));
+	        $('#change_language_form').submit();
+
+	    });
+	</script>
 	{% block extrascript %}{% endblock %}
 </body>
 </html>
