@@ -1,0 +1,36 @@
+/*************************************************/
+/* Feuille de style liée uniquement à la page */
+/* de listing des expositions */
+/*************************************************/
+
+.table-attr {
+    text-align: center;
+    display: inline-block;
+    float: left;
+}
+
+    .table-attr thead th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table-attr tbody tr td {
+        vertical-align: middle;
+    }
+
+.table-btn {
+  -webkit-border-radius: 4;
+  -moz-border-radius: 4;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 12px;
+  background-color: #5bc0de;
+  padding: 8px 16px 8px 16px;
+  text-decoration: none;
+  border: none;
+}
+
+.table-btn:hover {
+  background: #46b8da;
+  text-decoration: none;
+}

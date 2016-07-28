@@ -4,6 +4,7 @@
 {% block extrastyle %}
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  <link rel="stylesheet" type="text/css" href="{% static "css/list_expo.css" %}" />
   {% if cl.formset %}
     <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
   {% endif %}
@@ -19,16 +20,28 @@
 {% endblock %}
 
 {% block breadcrumbs %}{{ block.super }}{% endblock %}
-<!-- @TODO Finish template -->
 {% block content %}
-	<div id="content-main">
-		
+	<div class="results table-attr">
+    <table id="result_list">
+      <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Date début</th>
+        <th>Date fin</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
 		{% if next_expos_list %}
-			<ul>
 				{% for expo in next_expos_list %}
-				<li> <a href="{% url 'manage-expo' expo.expo_id %}">{{expo.title}} </a></li>
+          <tr>
+            <td>{{ expo.title }}</td>
+            <td>{{ expo.start_date }}</td>
+            <td>{{ expo.end_date }}</td>
+            <td><a href="{% url 'manage-expo' expo.expo_id %}"><button class="table-btn">{% trans "Gérer" %}</button></a></td>
+          </tr>
 				{% endfor %}
-			</ul>
 		{% endif %}
+    </tbody>
 	</div>
 {% endblock %}
