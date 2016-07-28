@@ -8,10 +8,11 @@
 {% block title %}{% trans "Plan de l'exposition" %}{% endblock %}
 {% block content %}
 <div class="panel panel-warning" id="map_expo">
-    <div class="panel-heading">Plan de l'exposition, {{ current_expo.title }}</div>
+    <div class="panel-heading">{% trans "Plan de l'exposition" %}, {{ current_expo.title }}</div>
     <div class="panel-body">
         <img src="{% static 'image/visualExp-map.png' %}" alt="" usemap="#Map" height="432" width="940"/>
         <map name="Map" id="Map">
+        {# @TODO Add ifs #}
             <area alt="" title="" href="#" shape="rect" coords="768,7,813,52" />
             <area alt="" title="" href="#" shape="rect" coords="613,92,657,136" />
             <area alt="" title="" href="#" shape="rect" coords="613,277,655,321" />
