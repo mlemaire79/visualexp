@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-28 03:40+0200\n"
+"POT-Creation-Date: 2016-07-28 13:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,6 +104,12 @@ msgstr ""
 msgid "Terminées"
 msgstr ""
 
+#. Translators : Filter for exposition in admin interface
+#. Translators: Model name for User(s)
+#: visualAdmin/admin.py:544 visualAdmin/models.py:278
+msgid "Utilisateur"
+msgstr ""
+
 #: visualAdmin/dashboard.py:34
 msgid "Quick links"
 msgstr ""
@@ -132,7 +138,7 @@ msgstr ""
 msgid "Gestion utilisateurs"
 msgstr ""
 
-#: visualAdmin/dashboard.py:67 visualAdmin/dashboard.py:119
+#: visualAdmin/dashboard.py:67 visualAdmin/dashboard.py:143
 msgid "Recent Actions"
 msgstr ""
 
@@ -390,11 +396,6 @@ msgstr ""
 msgid "Numéro de téléphone"
 msgstr ""
 
-#. Translators: Model name for User(s)
-#: visualAdmin/models.py:278
-msgid "Utilisateur"
-msgstr ""
-
 #: visualAdmin/models.py:279
 msgid "Utilisateurs"
 msgstr ""
@@ -524,45 +525,55 @@ msgstr ""
 msgid "Gestion Exposition"
 msgstr ""
 
-#: visualexpcode/settings.py:157
+#: visualexpcode/settings.py:158
 msgid "Français"
 msgstr "French"
 
-#: visualexpcode/settings.py:158
+#: visualexpcode/settings.py:159
 msgid "Anglais"
 msgstr "English"
 
-#: visualexpcode/settings.py:159
+#: visualexpcode/settings.py:160
 msgid "Allemand"
 msgstr "German"
 
-#: visualexpcode/settings.py:160
+#: visualexpcode/settings.py:161
 msgid "Russe"
 msgstr "Russian"
 
-#: visualexpcode/settings.py:161
+#: visualexpcode/settings.py:162
 msgid "Chinois (Simplifié)"
 msgstr "Chinese (Simplified)"
 
-#: visualexpcode/settings.py:162
+#: visualexpcode/settings.py:163
 msgid "Chinois (Traditionnel)"
 msgstr "Chinese (Traditional)"
 
-#: visualexpcode/templates/base.html:22
-msgid "Langue :"
-msgstr "Language :"
+#: visualexpcode/templates/base.html:21
+msgid "Navigation"
+msgstr ""
 
-#: visualexpcode/templates/base.html:49
+#: visualexpcode/templates/base.html:26
 #: visualexpcode/templates/extends/homepage.html:4
 msgid "Accueil"
 msgstr "Home"
 
-#: visualexpcode/templates/base.html:95
+#: visualexpcode/templates/base.html:37
+#, fuzzy
+#| msgid "Langue :"
+msgid "Langue"
+msgstr "Language :"
+
+#: visualexpcode/templates/base.html:65
+msgid "Langue :"
+msgstr "Language :"
+
+#: visualexpcode/templates/base.html:101
 msgid "Propulsé par Django & VisualExp"
 msgstr "Powered by Django & VisualExp"
 
 #: visualexpcode/templates/extends/currexposition.html:4
-msgid "Exposition courrante"
+msgid "Exposition courante"
 msgstr "Current Exposition"
 
 #: visualexpcode/templates/extends/currexposition.html:21
@@ -574,15 +585,15 @@ msgstr "Show Artworks"
 msgid "Voir le plan"
 msgstr "Show Floor Plan"
 
-#: visualexpcode/templates/extends/homepage.html:11
+#: visualexpcode/templates/extends/homepage.html:12
 msgid "Il semblerait que l'oeuvre ne soit pas exposée actuellement."
 msgstr "It seems this Artwork is not displayed for the moment."
 
-#: visualexpcode/templates/extends/homepage.html:18
+#: visualexpcode/templates/extends/homepage.html:19
 msgid "Bienvenue sur"
 msgstr "Welcome to"
 
-#: visualexpcode/templates/extends/homepage.html:18
+#: visualexpcode/templates/extends/homepage.html:19
 msgid "nous sommes le"
 msgstr "Today is"
 
@@ -595,14 +606,17 @@ msgstr "Read more"
 msgid "Liste des oeuvres"
 msgstr "Artwork List"
 
+#: visualexpcode/templates/extends/listartworks.html:7
+#, fuzzy
+#| msgid "Plan de l'exposition"
+msgid "Oeuvres de l'exposition"
+msgstr "Exposition Map"
+
 #: visualexpcode/templates/extends/mapexposition.html:8
+#: visualexpcode/templates/extends/mapexposition.html:11
 #: visualexpcode/templates/includes/nav-menu.html:9
 msgid "Plan de l'exposition"
 msgstr "Exposition Map"
-
-#: visualexpcode/templates/extends/zoomartist.html:4
-msgid "Artiste demandé"
-msgstr ""
 
 #: visualexpcode/templates/extends/zoomartist.html:29
 msgid "Retour"
@@ -613,9 +627,11 @@ msgstr "Back"
 msgid "Mots-clés"
 msgstr "Keywords"
 
-#: visualexpcode/templates/extends/zoomartwork.html:4
-msgid "Oeuvre demandée"
-msgstr ""
+#: visualexpcode/templates/extends/zoomartwork.html:7
+#, fuzzy
+#| msgid "Nombre de consultations"
+msgid "Consultations"
+msgstr "Number of Views"
 
 #: visualexpcode/templates/includes/nav-menu.html:3
 msgid "Les détails de l'exposition"
