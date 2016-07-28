@@ -70,6 +70,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'visualexpcode.middleware.languages.language_cookie.LanguageCookieMiddleware',
+    'visualexpcode.middleware.languages.language_cookie.AdminLocaleURLMiddleware',
 ]
 
 ROOT_URLCONF = 'visualexpcode.urls'
@@ -177,6 +178,8 @@ PARLER_LANGUAGES = {
         'hide_untranslated': False,   # the default; let .active_translations() return fallbacks too.
     }
 }
+
+ADMIN_LANGUAGE_CODE='fr'
 
 
 LOCALE_PATHS = (

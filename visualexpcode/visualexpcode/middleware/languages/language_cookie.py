@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils import translation
 
 class LanguageCookieMiddleware():
@@ -8,7 +9,10 @@ class LanguageCookieMiddleware():
         """
 
         if request.COOKIES.get('site_language'):
-            language = request.COOKIES['site_language']
+            if request.COOKIES['site_language'] == '':
+                language = 'fr'
+            else:
+                language = request.COOKIES['site_language']
             # You should add here some code to check teh language
             # variable is safe...
             translation.activate(language)
@@ -27,3 +31,11 @@ class LanguageCookieMiddleware():
                                 '')
         translation.deactivate()
         return response
+
+class AdminLocaleURLMiddleware:
+
+    def process_request(self, request):
+        if request.path.startswith('/admin'):
+            request.LANG = getattr(settings, 'ADMIN_LANGUAGE_CODE', settings.LANGUAGE_CODE)
+            translation.activate(request.LANG)
+            request.LANGUAGE_CODE = request.LANG

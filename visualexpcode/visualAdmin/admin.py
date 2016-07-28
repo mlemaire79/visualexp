@@ -536,13 +536,47 @@ class TaskStatusListFilter(admin.SimpleListFilter):
         if self.value() == 'finished':
             return queryset.filter(is_completed__exact=True)
 
+class TaskUserListFilter(admin.SimpleListFilter):
+    """
+    Set a custom filter for task by status
+    """
+    # Translators : Filter for exposition in admin interface
+    title = _('Utilisateur')
+
+    parameter_name = 'user'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar
+        """
+        return (
+            ('me', ('Mes Taches')),
+        )
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        user = None
+        if request.user.is_authenticated():
+            user = request.user
+
+        if self.value() == 'me':
+            return queryset.filter(users__id__contains=user.id)
+
 
 class TaskAdmin(ImproveRawIdFieldsForm):
     raw_id_fields = ("exposition","users",)
     fields = ('name', 'exposition', 'users', 'start_date', 'end_date','is_completed', 'description')
     search_fields = ('name', 'exposition__translations__title')
     list_display = ('name', 'exposition', 'get_users', 'start_date', 'end_date', 'is_completed')
-    list_filter = (TaskDateListFilter, TaskStatusListFilter)
+    list_filter = (TaskDateListFilter, TaskStatusListFilter, TaskUserListFilter)
 
 
 
