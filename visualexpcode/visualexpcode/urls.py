@@ -20,7 +20,8 @@ from django.contrib import admin
 from visualexpcode.views import main
 from visualAdmin.views.views import ArtworkList
 from visualAdmin.views.admin.display import ExpoListView, ExpoManageDisplays, DisplayDeleteView
-from django.conf.urls import include
+from django.conf.urls import handler404
+from django.conf.urls import patterns, include
 
 urlpatterns = [
     # Custom admin pages
@@ -39,6 +40,8 @@ urlpatterns = [
     url(r'^public/artist/(?P<artist>[0-9]+)$', main.ArtistAsked.as_view()),
     url(r'^admin_tools/', include('admin_tools.urls')),
 ]
+
+handler404 = main.custom_handler404
 
 if settings.DEBUG:
     urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
