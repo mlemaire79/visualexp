@@ -1,0 +1,55 @@
+/*************************************************/
+/* Feuille de style liée uniquement à la page */
+/* de gestion des expositions (oeuvres esposées) */
+/*************************************************/
+
+.map-size {
+    width: 100%;
+}
+
+.form-size {
+    width: 35%;
+    float: left;
+    padding-left: 20px;
+}
+
+.table-attr {
+    text-align: center;
+    display: inline-block;
+    float: left;
+}
+
+    .table-attr thead th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table-attr tbody tr td {
+        vertical-align: middle;
+    }
+
+.table-btn {
+  -webkit-border-radius: 4;
+  -moz-border-radius: 4;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 12px;
+  background: #e00000;
+  padding: 8px 16px 8px 16px;
+  text-decoration: none;
+  border: none;
+}
+
+.table-btn:hover {
+  background: #f24848;
+  text-decoration: none;
+}
+
+.form-attr form label {
+    font-weight: bold;
+    display: block;
+}
+
+.form-attr form input {
+    display: block;
+}

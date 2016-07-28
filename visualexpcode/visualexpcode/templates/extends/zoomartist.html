@@ -12,7 +12,6 @@
             </div>
         {% endif %}
         <div>
-            <hr>
             <u>{% trans "Date de naissance" %}</u> : {{ asked_artist.birth_date }},
             {% if asked_artist.stage_name %}
                 <u>{% trans "Pseudonyme" %}</u> : {{ asked_artist.stage_name }}
@@ -30,7 +29,7 @@
                 </button>
             </a>
         {% endif %}
-        <span class="tags">{% trans "Mots-clés" %} : {% for tag in asked_artist.tags.all %}<span class="badge">{{ tag.name }}</span> {% endfor %}</span>
+        <span class="tags">{% trans "Mots-clés" %} : {% for tag in asked_artist.tags.all %}<span class="label label-default">{{ tag.name }}</span> {% endfor %}</span>
     </div>
 </div>
 {% endblock %}

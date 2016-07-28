@@ -7,6 +7,7 @@
 {% block extrastyle %}
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  <link rel="stylesheet" type="text/css" href="{% static "css/manage_expo.css" %}" />
   {{ media.css }}
 {% endblock %}
 
@@ -22,31 +23,50 @@
 {% block content %}
 <h2>Exposition : {{ exposition.title }}</h2> 
 {# Afficher d'autres infos sur l'expo ? Genre les dates début, fin ? #}
-{# @TODO Afficher le plan pour reperage visuel #}
+<div class="map-size">
+  <img src="{% static 'image/visualExp-map.png' %}" alt="" usemap="#Map" height="432" width="940"/>
+</div>
 {% if display_list %}
- {% for display in display_list %}
-    {{ display.position}}
-    {{ display.artwork.title }}
-    {{ display.has_arrived}}
-    {% url 'public-artwork' display.artwork.artwork_id as artwork_url %}
-    {% with qr_url="http://"|addstr:request.get_host|addstr:artwork_url %}
-
-    {% qr_from_text qr_url %}
-{% endwith %}    
-    {# @TODO Afficher un truc propre pour le boolean #}
-<form action="delete_display/{{ display.pk }}/" method="post">
-  {% csrf_token %}
-  {# @TODO Templater le bouton, on voit rien ! #}
-  <button class="btn-sm">{% trans supprimer %}</button>
-</form>
- {% endfor %}
+<div class="results table-attr">
+  <table id="result_list">
+    <thead>
+      <tr>
+        <th>Emplacement</th>
+        <th>Titre</th>
+        <th>Statut livraison</th>
+        <th>QRCode</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for display in display_list %}
+        <tr>
+          <td>{{ display.position}}</td>
+          <td>{{ display.artwork.title }}</td>
+          <td>{% if display.has_arrived == True %}<img src="{% static 'admin/img/icon-yes.svg' %}" alt="Livrée">{% else %}<img src="{% static 'admin/img/icon-no.svg' %}" alt="Non Livrée">{% endif %}</td>
+        {% url 'public-artwork' display.artwork.artwork_id as artwork_url %}
+        {% with qr_url="http://"|addstr:request.get_host|addstr:artwork_url %}
+          <td>{% qr_from_text qr_url "s" %}</td>
+        {% endwith %}
+          <td>
+            <form action="delete_display/{{ display.pk }}/" method="post">
+              {% csrf_token %}
+              <button class="table-btn">{% trans "Supprimer" %}</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endif %}
-<form action="" method="post">
-	{% csrf_token %}
-	{{ form }}
-	<input type="submit" value="{% trans 'Ajouter' %}"></input>
-</form>
-
+<div class="form-size form-attr">
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="{% trans 'Ajouter' %}"></input>
+  </form>
+</div>
 {% endblock %}
 
 {% block footer %}
