@@ -59,7 +59,7 @@
 		{% cookie 'site_language' as lang_cookie_value %}
 		{% if lang_cookie_value == ''%}
 		<div class="modal fade" id="langModal" tabindex="-1" role="dialog" aria-labelledby="langModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-sm">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title" id="langModalLabel">{% trans "Langue :" %}</h4>
@@ -77,7 +77,7 @@
 								{% endfor %}
 					</div>
 					<div class="modal-footer">
-						
+						<p>En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de Cookies pour stocker votre choix de langue.</p>
 					</div>
 				</div>
 			</div>
