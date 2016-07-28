@@ -80,8 +80,10 @@ class Map(View):
 
     def get(self, request):
         current_expo = Exposition.get_current()
+        display_expo = Display.objects.filter(exposition=current_expo)
         context = {
             'current_expo': current_expo,
+            'display_expo': display_expo,
         }
         template = loader.get_template('extends/mapexposition.html')
         return HttpResponse(template.render(context, request))

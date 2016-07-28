@@ -19,14 +19,11 @@
                 </div>
             </div>
         {% elif qr_artwork.get_type == "Son" %}
-            <div class="col-xs-12 col-md-7 col-lg-7">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <audio class="embed-responsive-item" controls><source src="{{ MEDIA_URL }}{{ qr_artwork.file }}"></audio>
-                </div>
+            <div class="col-xs-12 col-md-5 col-lg-5">
+                <audio class="embed-responsive-item" controls><source src="{{ MEDIA_URL }}{{ qr_artwork.file }}"></audio>
             </div>
         {% endif %}
         <div>
-            <hr>
             <u>{% trans "Date de publication" %}</u> : {{ qr_artwork.publication_date }}, <u>{% trans "Artiste" %}</u> : <a href="/public/artist/{{ qr_artwork.artist.artist_id }}?back={{ qr_artwork.artwork_id }}">{{ qr_artwork.artist }}</a>
             <br/>
             {{ qr_artwork.description|safe }}
@@ -44,7 +41,7 @@
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> {% trans "Exposition" %}
             </button>
         </a>
-        <span class="tags">{% trans "Mots-clés" %} : {% for tag in qr_artwork.tags.all %}<span class="badge">{{ tag.name }}</span> {% endfor %}</span>
+        <span class="tags">{% trans "Mots-clés" %} : {% for tag in qr_artwork.tags.all %}<span class="label label-default">{{ tag.name }}</span> {% endfor %}</span>
     </div>
 </div>
 {% endblock %}

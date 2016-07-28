@@ -12,24 +12,28 @@
     <div class="panel-body">
         <img src="{% static 'image/visualExp-map.png' %}" alt="" usemap="#Map" height="432" width="940"/>
         <map name="Map" id="Map">
-        {# @TODO Add ifs #}
-            <area alt="" title="" href="#" shape="rect" coords="768,7,813,52" />
-            <area alt="" title="" href="#" shape="rect" coords="613,92,657,136" />
-            <area alt="" title="" href="#" shape="rect" coords="613,277,655,321" />
-            <area alt="" title="" href="#" shape="rect" coords="760,383,805,429" />
-            <area alt="" title="" href="#" shape="rect" coords="407,276,450,318" />
-            <area alt="" title="" href="#" shape="rect" coords="320,386,366,430" />
-            <area alt="" title="" href="#" shape="rect" coords="348,195,392,236" />
-            <area alt="" title="" href="#" shape="rect" coords="110,385,153,426" />
-            <area alt="" title="" href="#" shape="rect" coords="6,305,48,347" />
-            <area alt="" title="" href="#" shape="rect" coords="8,167,48,209" />
-            <area alt="" title="" href="#" shape="rect" coords="120,115,163,158" />
-            <area alt="" title="" href="#" shape="rect" coords="284,35,324,78" />
-            <area alt="" title="" href="#" shape="rect" coords="433,6,474,48" />
-            <area alt="" title="" href="#" shape="rect" coords="395,133,437,175" />
-            <area alt="" title="" href="#" shape="rect" coords="501,158,544,202" />
-            <area alt="" title="" href="#" shape="rect" coords="556,94,595,135" />
+            {% for display in display_expo %}
+                {% if display.position == 1 %}<area alt="Emplacement 1" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="762,385,805,429" />{% endif %}
+                {% if display.position == 2 %}<area alt="Emplacement 2" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="612,277,656,320" />{% endif %}
+                {% if display.position == 3 %}<area alt="Emplacement 3" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="322,386,363,428" />{% endif %}
+                {% if display.position == 4 %}<area alt="Emplacement 4" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="408,275,451,319" />{% endif %}
+                {% if display.position == 5 %}<area alt="Emplacement 5" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="346,195,388,237" />{% endif %}
+                {% if display.position == 6 %}<area alt="Emplacement 6" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="112,386,152,426" />{% endif %}
+                {% if display.position == 7 %}<area alt="Emplacement 7" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="6,303,49,348" />{% endif %}
+                {% if display.position == 8 %}<area alt="Emplacement 8" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="8,168,50,207" />{% endif %}
+                {% if display.position == 9 %}<area alt="Emplacement 9" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="121,116,163,157" />{% endif %}
+                {% if display.position == 10 %}<area alt="Emplacement 10" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="283,35,325,74" />{% endif %}
+                {% if display.position == 11 %}<area alt="Emplacement 11" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="394,134,437,174" />{% endif %}
+                {% if display.position == 12 %}<area alt="Emplacement 12" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="433,6,475,50" />{% endif %}
+                {% if display.position == 13 %}<area alt="Emplacement 13" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="500,160,543,198" />{% endif %}
+                {% if display.position == 14 %}<area alt="Emplacement 14" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="555,96,596,135" />{% endif %}
+                {% if display.position == 15 %}<area alt="Emplacement 15" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="614,94,657,137" />{% endif %}
+                {% if display.position == 16 %}<area alt="Emplacement 16" title="" href="/public/artwork/{{ display.artwork.artwork_id }}" shape="rect" coords="771,6,811,48" />{% endif %}
+            {% endfor %}
         </map>
+    </div>
+    <div class="panel-footer">
+        {% trans "Cliquez sur l'emplacement pour être redirigé sur l'oeuvre concernée par celui-ci." %}
     </div>
 </div>
 {% endblock %}
